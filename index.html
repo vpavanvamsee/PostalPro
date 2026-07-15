@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postalpro | India's Postal EdTech Hub</title>
-    <meta name="description" content="Free postal knowledge platform for Indian Postal employees. GDS to MTS, PA/SA material, quizzes, and TD calculators.">
+    <title>Postalpro - India's Postal EdTech Hub</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,15 +12,14 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        stone: { 950: '#0c0a09', 900: '#1c1917', 800: '#292524', 700: '#44403c', 600: '#57534e', 500: '#78716c', 400: '#a8a29e', 300: '#d6d3d1', 200: '#e7e5e4', 100: '#f5f5f4', 50: '#fafaf9' },
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
-        
-        // Prevent FOUC for Dark Mode
+    </script>
+    
+    <!-- Prevent FOUC for Dark Mode -->
+    <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -778,6 +776,7 @@
         if (num === 0) return 'Zero';
         const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
         const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+        
         const format = (n) => {
             if (n < 20) return a[n];
             if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + a[n % 10] : '');
@@ -790,12 +789,19 @@
     }
 
     function generatePDF() {
-        if (entries.length === 0 || entries[0].amount === 0) {
-            alert("Please add at least one valid entry before generating the PDF.");
+        if (typeof window.jspdf === 'undefined') {
+            alert("PDF library is still loading. Please try again in a few seconds.");
             return;
         }
 
+        if (entries.length === 0) {
+            alert("Please add at least one entry before generating the PDF.");
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+        
         const bo = document.getElementById('meta-bo').value || '__________';
         const so = document.getElementById('meta-so').value || '__________';
         const ho = document.getElementById('meta-ho').value || '__________';
@@ -803,18 +809,20 @@
         const month = document.getElementById('meta-month').value || '__________';
         const totalInc = entries.reduce((sum, e) => sum + e.incentive, 0);
 
+        // Header
         doc.setFontSize(10);
         doc.text("DEPARTMENT OF POST INDIA", 105, 15, { align: "center" });
         doc.setFontSize(14);
         doc.text("TD COMMISSION BPM INCENTIVE BILL", 105, 22, { align: "center" });
         
         doc.setFontSize(9);
-        doc.text(`BO: ${bo}`, 15, 32);
-        doc.text(`SO: ${so}`, 85, 32);
-        doc.text(`HO: ${ho}`, 155, 32);
-        doc.text(`DATE: ${date}`, 15, 38);
-        doc.text(`FOR THE MONTH OF: ${month}`, 85, 38);
+        doc.text(`BO: ${bo}`, 20, 32);
+        doc.text(`SO: ${so}`, 90, 32);
+        doc.text(`HO: ${ho}`, 160, 32);
+        doc.text(`DATE: ${date}`, 20, 38);
+        doc.text(`FOR THE MONTH OF: ${month}`, 90, 38);
 
+        // Table
         const body = entries.map((e, i) => [
             i + 1, e.accountNo, e.prNo, e.name, e.amount.toFixed(2), e.term, (e.rate * 100) + '%', e.incentive.toFixed(2)
         ]);
@@ -824,48 +832,50 @@
             head: [['Sr', 'Account No', 'PR No', 'Name of Depositor', 'Deposit Amt', 'Term', 'Rate', 'Incentive']],
             body: body,
             theme: 'grid',
-            headStyles: { fillColor: [87, 83, 78], fontSize: 8 }, 
+            headStyles: { fillStyle: '#888', fillColor: [100, 100, 100], fontSize: 8 },
             styles: { fontSize: 8, cellPadding: 2 },
             columnStyles: { 0: { cellWidth: 10 }, 4: { halign: 'right' }, 7: { halign: 'right' } }
         });
 
         const finalY = doc.previousAutoTable.finalY + 10;
 
+        // Footer Section
         doc.setFontSize(9);
-        doc.text(`TOTAL INCENTIVE AMOUNT: Rs. ${totalInc.toFixed(2)}`, 15, finalY);
-        doc.text(`RUPEES (IN WORDS): ${numberToWords(totalInc)} Only`, 15, finalY + 7);
+        doc.text(`TOTAL INCENTIVE AMOUNT: Rs. ${totalInc.toFixed(2)}`, 20, finalY);
+        doc.text(`RUPEES (IN WORDS): ${numberToWords(totalInc)} Only`, 20, finalY + 7);
 
         doc.setFontSize(7);
-        doc.text("CERTIFIED THAT INCENTIVE FOR ABOVE MENTIONED ACCOUNTS ARE NOT TAKEN EARLIER.", 15, finalY + 18);
-        doc.text("CERTIFIED THAT ACCOUNTS ARE OPENED AT BRANCH OFFICE AND NOT THROUGH ANY SAS AGENTS.", 15, finalY + 23);
+        doc.text("CERTIFIED THAT INCENTIVE FOR ABOVE MENTIONED ACCOUNTS ARE NOT TAKEN EARLIER.", 20, finalY + 18);
+        doc.text("CERTIFIED THAT ACCOUNTS ARE OPENED AT BRANCH OFFICE AND NOT THROUGH ANY SAS AGENTS.", 20, finalY + 23);
         
-        const signY = finalY + 50;
+        const signY = finalY + 65;
         doc.setFontSize(9);
-        doc.text("ACCEPTANCE GRANTED FOR THE AMOUNT OF RS. __________________", 15, signY);
-        doc.text("RUPEES (IN WORDS) : ________________________________________________", 15, signY + 8);
-        doc.text("SIGNATURE OF SPM", 150, signY + 8);
-        
-        doc.text("RECEIVED INCENTIVE AMOUNT OF RS. __________________", 15, signY + 25);
-        doc.text("RUPEES (IN WORDS) : ________________________________________________", 15, signY + 33);
-        doc.text("SIGNATURE OF BPM", 150, signY + 33);
+        doc.text("PLEASE GIVE THE ACCEPTANCE OF INCENTIVE AMOUNT RS. ", 20, finalY + 33);
+        doc.text("RUPEES (IN WORDS) :-", 20, finalY + 38);
+        doc.text("SIGNATURE OF BPM", 150, finalY + 50);
+        doc.text("ACCEPTANCE GRANTED FOR THE AMOUNT OF RS. ", 20, finalY + 60);
+        doc.text("RUPEES (IN WORDS) :-", 20, finalY + 65);
+        doc.text("SIGNATURE OF SPM", 150, signY + 12);
+        doc.text("INCENTIVE AMOUNT OF RS. ", 20, finalY + 82);
+        doc.text("RUPEES (IN WORDS) :-", 20, finalY + 87);
+        doc.text("SIGNATURE OF BPM", 150, signY + 38);
 
-        doc.save(`TD_Bill_${month || 'Export'}.pdf`);
+        doc.save(`TD_Bill_${month}.pdf`);
     }
 
-    // Initialize Site
+    // Initialize application state
     window.onload = () => {
         renderHome();
-        showSection('home');
-    };
-
-    // Scroll to Top Button Visibility Logic
-    window.onscroll = function() {
-        const scrollBtn = document.getElementById('scrollToTopBtn');
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            scrollBtn.classList.remove('hidden');
-        } else {
-            scrollBtn.classList.add('hidden');
-        }
+        
+        // Scroll-to-top button logic
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('scrollToTopBtn');
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        });
     };
 </script>
 
