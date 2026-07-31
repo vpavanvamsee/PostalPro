@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies Policy - POSTALPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between">
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-black font-poppins"><span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span></a>
+            <nav class="hidden md:flex space-x-8 font-semibold text-sm">
+                <a href="tools.html" class="hover:text-brandOrange">Tools</a>
+                <a href="guides.html" class="hover:text-brandOrange">Guides</a>
+                <a href="news.html" class="hover:text-brandOrange">News</a>
+                <a href="practice.html" class="hover:text-brandOrange">Practice</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg"><i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+    </header>
+
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto bg-brandCardBg border border-brandCardBorder rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+            <div class="border-b border-brandCardBorder pb-4">
+                <span class="bg-brandOrange/15 text-brandOrange font-bold text-xs px-3 py-1 rounded-full uppercase">Legal</span>
+                <h1 class="text-3xl font-extrabold font-poppins text-brandDarkText mt-2">Cookies Policy</h1>
+            </div>
+            <div class="space-y-4 text-sm sm:text-base font-medium text-brandDarkText/90 leading-relaxed">
+                <p>POSTALPRO uses small browser storage mechanisms (Cookies and LocalStorage) strictly to improve your user experience.</p>
+                <p>We store your recent search inputs (such as recent Pincode queries and SB Order searches) directly on your device so you can access your frequent lookups quickly without retyping them.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bold font-poppins">About POSTALPRO</h3>
+                <p class="text-xs text-brandMutedText mt-2">Made with <i class="fa-solid fa-heart text-brandOrange"></i> by one of your colleague</p>
+            </div>
+            <div>
+                <h3 class="font-bold font-poppins">Resources</h3>
+                <ul class="space-y-1.5 text-xs font-medium mt-2">
+                    <li><a href="forms.html" class="hover:text-brandOrange">Forms</a></li>
+                    <li><a href="downloads.html" class="hover:text-brandOrange">Downloads</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold font-poppins">Legal</h3>
+                <ul class="space-y-1.5 text-xs font-medium mt-2">
+                    <li><a href="privacy-policy.html" class="hover:text-brandOrange">Privacy Policy</a></li>
+                    <li><a href="cookies-policy.html" class="text-brandOrange font-bold">Cookies Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="bg-brandOrange/10 py-3 text-center text-xs font-bold text-brandOrange border-t border-brandOrange/20">BUILT AND POWERED BY VAMSEE</div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

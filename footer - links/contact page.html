@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - POSTALPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandOrangeHover: '#d45312',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-50 bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="../index.html" class="text-2xl font-black font-poppins"><span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span></a>
+            <nav class="hidden md:flex space-x-8 font-semibold text-sm">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="hover:text-brandOrange">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="hover:text-brandOrange">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange">Practice</a>
+            </nav>
+            <button id="mobile-menu-btn" type="button" class="md:hidden p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText">
+                <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 py-4 space-y-3">
+            <a href="../nav-bar-pages/tools.html" class="block py-2 font-semibold">Tools</a>
+            <a href="../nav-bar-pages/guides.html" class="block py-2 font-semibold">Guides</a>
+            <a href="../nav-bar-pages/news.html" class="block py-2 font-semibold">News</a>
+            <a href="../nav-bar-pages/practice.html" class="block py-2 font-semibold">Practice</a>
+        </div>
+    </header>
+
+    <!-- FORM CONTAINER -->
+    <main class="flex-grow py-12 px-4">
+        <div class="max-w-2xl mx-auto bg-brandCardBg border border-brandCardBorder rounded-3xl p-6 sm:p-10 shadow-md space-y-6">
+            <div class="text-center space-y-2">
+                <span class="bg-brandOrange/15 text-brandOrange font-bold text-xs px-3 py-1 rounded-full uppercase">Get in Touch</span>
+                <h1 class="text-3xl font-extrabold font-poppins text-brandDarkText">Contact Us</h1>
+                <p class="text-xs text-brandMutedText font-medium">Submit your queries directly to WhatsApp or Email.</p>
+            </div>
+
+            <form id="contact-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Name</label>
+                    <input type="text" id="contact-name" placeholder="Enter your full name" required class="w-full p-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Phone</label>
+                    <input type="tel" id="contact-phone" placeholder="Enter mobile number" required class="w-full p-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Email</label>
+                    <input type="email" id="contact-email" placeholder="Enter email address" required class="w-full p-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1">Tell Us</label>
+                    <textarea id="contact-message" rows="4" placeholder="Write your message here..." required class="w-full p-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <button type="button" onclick="sendWhatsApp()" class="py-3 px-6 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center">
+                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Send via WhatsApp
+                    </button>
+                    <button type="button" onclick="sendEmail()" class="py-3 px-6 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-sm shadow-md transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-envelope text-lg mr-2"></i> Send via Email
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 py-10 text-center space-y-2">
+            <p class="text-xs font-medium">Made with <i class="fa-solid fa-heart text-brandOrange mx-1"></i> by one of your colleague</p>
+            <p class="font-bold text-xs tracking-widest text-brandOrange pt-2">BUILT AND POWERED BY VAMSEE</p>
+        </div>
+    </footer>
+    
+
+    <script src="../js/main.js"></script>
+    <script>
+        function getFormattedMessage() {
+            const name = document.getElementById('contact-name').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            if (!name || !phone || !email || !message) {
+                alert("Please fill in all form fields.");
+                return null;
+            }
+
+            return `Hi there\nI'm ${name}\nMobile number: ${phone}\nEmail: ${email}\n\n${message}`;
+        }
+
+        function sendWhatsApp() {
+            const text = getFormattedMessage();
+            if (text) {
+                const encodedText = encodeURIComponent(text);
+                window.open(`https://wa.me/916309833253?text=${encodedText}`, '_blank');
+            }
+        }
+
+        function sendEmail() {
+            const text = getFormattedMessage();
+            if (text) {
+                const subject = encodeURIComponent("PostalPro Contact Inquiry");
+                const body = encodeURIComponent(text);
+                window.location.href = `mailto:postalpro.in@gmail.com?subject=${subject}&body=${body}`;
+            }
+        }
+    </script>
+</body>
+</html>

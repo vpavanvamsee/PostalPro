@@ -1,0 +1,33 @@
+{
+  "total": 154797,
+  "count": 10,
+  "limit": "100",
+  "offset": "0",
+  "records": [
+    {
+      "officename": "Adilabad Collectorate S.O",
+      "pincode": "504001",
+      "officetype": "S.O",
+      "deliverystatus": "Non-Delivery",
+      "divisionname": "Adilabad",
+      "regionname": "Hyderabad",
+      "circlename": "Andhra Pradesh",
+      "taluk": "Adilabad",
+      "districtname": "Adilabad",
+      "statename": "TELANGANA",
+      "telephone": "08732-226703"
+    },
+    {
+      "officename": "Adilabad H.O",
+      "pincode": "504001",
+      "officetype": "H.O",
+      "deliverystatus": "Delivery",
+      "divisionname": "Adilabad",
+      "regionname": "Hyderabad",
+      "circlename": "Andhra Pradesh",
+      "taluk": "Adilabad",
+      "districtname": "Adilabad",
+      "statename": "TELANGANA"
+    }
+  ]
+}

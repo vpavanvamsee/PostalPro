@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Repository - POSTALPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandOrangeHover: '#d45312',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between selection:bg-brandOrange selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- 1. STICKY NAVIGATION BAR WITH HAMBURGER    -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="../index.html" class="flex items-center space-x-1.5 text-2xl font-black tracking-wider font-poppins">
+                <span class="text-brandDarkText">POSTAL</span><!--
+             --><span class="text-brandOrange">PRO</span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange transition-colors">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="hover:text-brandOrange transition-colors">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="hover:text-brandOrange transition-colors">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange transition-colors">Practice</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation Menu"
+                    class="p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText hover:text-brandOrange focus:outline-none transition-all shadow-sm">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                    <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="../nav-bar-pages/tools.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-wrench text-brandOrange mr-2.5"></i> Tools
+            </a>
+            <a href="../nav-bar-pages/guides.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-book-open text-brandOrange mr-2.5"></i> Guides
+            </a>
+            <a href="../nav-bar-pages/news.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-bullhorn text-brandOrange mr-2.5"></i> News & Updates
+            </a>
+            <a href="../nav-bar-pages/practice.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-graduation-cap text-brandOrange mr-2.5"></i> Practice Quizzes
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto bg-brandCardBg border border-brandCardBorder rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+            
+            <div class="border-b border-brandCardBorder pb-4 space-y-2">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-brandOrange/15 text-brandOrange font-bold text-xs px-3 py-1 rounded-full uppercase">Official PDFs</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold font-poppins text-brandDarkText">Departmental Forms Repository</h1>
+                <p class="text-xs text-brandMutedText font-medium">Search and download official post office forms instantly.</p>
+            </div>
+
+            <!-- LIVE SEARCH BAR -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-brandMutedText"></i>
+                <input type="text" id="forms-search" onkeyup="filterForms()" placeholder="Search form by name e.g. BO Daily Account, PLI, Withdrawal..." 
+                       class="w-full pl-11 pr-4 py-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+            </div>
+
+            <!-- FORMS LIST -->
+            <div id="forms-container" class="space-y-3">
+                
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">BO DAILY ACCOUNT FORM</span>
+                    <a href="assets/bo-daily-account.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">RPLI PROPOSAL FORM</span>
+                    <a href="assets/rpli-proposal.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">PLI PROPOSAL FORM</span>
+                    <a href="assets/pli-proposal.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">WITHDRAWAL FORM</span>
+                    <a href="assets/withdrawal-form.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">DEPOSIT FORM</span>
+                    <a href="assets/deposit-form.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+                <div class="form-item flex items-center justify-between p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder hover:border-brandOrange transition-all">
+                    <span class="form-title font-bold text-xs sm:text-sm uppercase text-brandDarkText">INCOME DECLARATION</span>
+                    <a href="assets/income-declaration.pdf" download class="px-5 py-2 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-xs transition-all shadow-sm">
+                        <i class="fa-solid fa-download mr-1"></i> DOWNLOAD
+                    </a>
+                </div>
+
+            </div>
+
+            <div id="no-forms-msg" class="hidden text-center py-6 text-xs text-brandMutedText font-semibold">
+                No matching forms found.
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 py-8 text-center space-y-2">
+            <p class="text-xs font-medium">Made with <i class="fa-solid fa-heart text-brandOrange mx-1"></i> by one of your colleague</p>
+            <p class="font-bold text-xs tracking-widest text-brandOrange pt-1">BUILT AND POWERED BY VAMSEE</p>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- 4. FLOATING BACK TO TOP BUTTON            -->
+    <!-- ========================================== -->
+    <button id="back-to-top" type="button" onclick="scrollToTop()" aria-label="Back to top"
+        class="fixed bottom-6 right-6 hidden z-50 p-3.5 rounded-full bg-brandOrange text-white shadow-xl hover:bg-brandOrangeHover hover:scale-110 transition-all duration-300">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+    <script>
+        function filterForms() {
+            const query = document.getElementById('forms-search').value.toLowerCase().trim();
+            const items = document.querySelectorAll('.form-item');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const title = item.querySelector('.form-title').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    item.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            const noMsg = document.getElementById('no-forms-msg');
+            if (visibleCount === 0) {
+                noMsg.classList.remove('hidden');
+            } else {
+                noMsg.classList.add('hidden');
+            }
+        }
+        </script>
+        <script src="../js/main.js"></script>
+</body>
+</html>

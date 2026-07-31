@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPM TD Commission Bill Generator - POSTALPRO</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts (Poppins & Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandOrangeHover: '#d45312',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- HIGH-PRECISION PRINT & PDF STYLES (PREVENTS LINE OVERLAPPING) -->
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm 15mm 12mm 15mm;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-family: 'Times New Roman', Times, serif, Arial !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Hide Web UI Elements on Print */
+            header, footer, #no-print-section, #back-to-top {
+                display: none !important;
+            }
+
+            /* Printable Bill Container Reset */
+            #printable-bill-section {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            /* Table Formatting & Zero Line Overlap */
+            #printable-bill-section table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                margin-top: 12px !important;
+                margin-bottom: 12px !important;
+            }
+
+            #printable-bill-section table th,
+            #printable-bill-section table td {
+                border: 1px solid #000000 !important;
+                padding: 7px 9px !important; /* Prevents text from touching borders */
+                line-height: 1.4 !important;
+                font-size: 10.5pt !important;
+                vertical-align: middle !important;
+                word-break: break-word !important;
+            }
+
+            #printable-bill-section table th {
+                background-color: #f2f2f2 !important;
+                font-weight: bold !important;
+            }
+
+            /* Clean Underline Line Spans for Fill-ins */
+            .bill-line-field {
+                border-bottom: 1px solid #000000 !important;
+                padding-bottom: 2px !important;
+                padding-left: 6px !important;
+                padding-right: 6px !important;
+                display: inline-block !important;
+                min-width: 120px !important;
+                font-weight: bold !important;
+            }
+
+            /* Section Spacing & Page Break Protection */
+            .acceptance-block {
+                margin-top: 22px !important;
+                padding-top: 6px !important;
+                page-break-inside: avoid !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between selection:bg-brandOrange selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- 1. STICKY NAVIGATION BAR WITH HAMBURGER    -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-1.5 text-2xl font-black tracking-wider font-poppins">
+                <span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange transition-colors">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="hover:text-brandOrange transition-colors">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="hover:text-brandOrange transition-colors">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange transition-colors">Practice</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-btn" type="button" class="p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText hover:text-brandOrange focus:outline-none transition-all shadow-sm">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                    <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="../nav-bar-pages/tools.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-wrench text-brandOrange mr-2.5"></i> Tools
+            </a>
+            <a href="../nav-bar-pages/guides.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-book-open text-brandOrange mr-2.5"></i> Guides
+            </a>
+            <a href="../nav-bar-pages/news.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-bullhorn text-brandOrange mr-2.5"></i> News & Updates
+            </a>
+            <a href="../nav-bar-pages/practice.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-graduation-cap text-brandOrange mr-2.5"></i> Practice Quizzes
+            </a>
+        </div>
+    </header>
+
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN TOOL CONTENT                       -->
+    <!-- ========================================== -->
+    <main class="flex-grow py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto space-y-8">
+            
+            <!-- Breadcrumb Header (Hidden on Print) -->
+            <div id="no-print-section">
+                <a href="../index.html" class="inline-flex items-center text-sm font-semibold text-brandOrange hover:text-brandOrangeHover transition-colors mb-4">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to Home
+                </a>
+                
+                <!-- Title Banner -->
+                <div class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 sm:p-8 shadow-sm text-center space-y-3">
+                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brandOrange/10 text-brandOrange text-2xl mb-1">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold font-poppins text-brandDarkText">
+                        TD Commission BPM Incentive Bill Generator
+                    </h1>
+                    <p class="text-sm sm:text-base text-brandMutedText max-w-2xl mx-auto">
+                        Fill in your branch details and account entries below. The commission rates and total incentive in words will be calculated automatically!
+                    </p>
+
+                    <!-- Commission Rates Reference -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 max-w-2xl mx-auto text-xs font-semibold">
+                        <div class="p-2.5 rounded-lg bg-brandCreamBg/50 border border-brandCardBorder text-center">
+                            1 Year TD = <span class="text-brandOrange font-bold">0.5% Rate</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-brandCreamBg/50 border border-brandCardBorder text-center">
+                            2 / 3 Year TD = <span class="text-brandOrange font-bold">1% Rate</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-brandCreamBg/50 border border-brandCardBorder text-center">
+                            5 Year TD = <span class="text-brandOrange font-bold">2% Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE FORM (HIDDEN ON PRINT) -->
+            <div id="no-print-section" class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 sm:p-8 shadow-sm space-y-8">
+                
+                <!-- Section 1: Office Info Fields -->
+                <div class="space-y-4">
+                    <h2 class="text-lg font-bold font-poppins text-brandOrange flex items-center border-b border-brandCardBorder pb-2">
+                        <i class="fa-solid fa-building-columns mr-2"></i> 1. Office & Date Details
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-brandDarkText uppercase mb-1">Branch Office (BO):</label>
+                            <input type="text" id="input-bo" placeholder="e.g. Rampur BO" class="w-full p-2.5 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brandDarkText uppercase mb-1">Sub Office (SO):</label>
+                            <input type="text" id="input-so" placeholder="e.g. City SO" class="w-full p-2.5 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brandDarkText uppercase mb-1">Head Office (HO):</label>
+                            <input type="text" id="input-ho" placeholder="e.g. Division HO" class="w-full p-2.5 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-brandDarkText uppercase mb-1">Date:</label>
+                            <input type="date" id="input-date" class="w-full p-2.5 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brandDarkText uppercase mb-1">For The Month Of:</label>
+                            <input type="text" id="input-month" placeholder="e.g. October 2024" class="w-full p-2.5 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Account Table Entries -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-brandCardBorder pb-2">
+                        <h2 class="text-lg font-bold font-poppins text-brandOrange flex items-center">
+                            <i class="fa-solid fa-list-check mr-2"></i> 2. POTD Accounts List
+                        </h2>
+                        <button type="button" onclick="addAccountRow()" class="px-3.5 py-1.5 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white text-xs font-bold transition-all flex items-center shadow-sm">
+                            <i class="fa-solid fa-plus mr-1.5"></i> Add Account
+                        </button>
+                    </div>
+
+                    <!-- Input Table Container -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs font-medium border-collapse min-w-[700px]">
+                            <thead>
+                                <tr class="bg-brandCreamBg/60 text-brandDarkText uppercase font-bold border-b border-brandCardBorder">
+                                    <th class="p-2.5 w-12 text-center">Sr</th>
+                                    <th class="p-2.5">Account No</th>
+                                    <th class="p-2.5">PR No</th>
+                                    <th class="p-2.5">Name of Depositor</th>
+                                    <th class="p-2.5 w-32">Deposit Amt (₹)</th>
+                                    <th class="p-2.5 w-28">Term</th>
+                                    <th class="p-2.5 w-20 text-center">Rate</th>
+                                    <th class="p-2.5 w-28 text-right">Incentive (₹)</th>
+                                    <th class="p-2.5 w-12 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="account-rows-container" class="divide-y divide-brandCardBorder">
+                                <!-- Dynamic JS Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section 3: Live Summary -->
+                <div class="bg-brandCreamBg/40 border border-brandCardBorder rounded-xl p-5 space-y-3">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-brandCardBorder pb-3">
+                        <span class="text-sm font-bold text-brandDarkText">Total Incentive Amount:</span>
+                        <span id="live-total-incentive" class="text-xl font-black text-brandOrange">₹ 0.00</span>
+                    </div>
+                    <div class="text-xs font-semibold text-brandMutedText">
+                        RUPEES (IN WORDS): <span id="live-rupees-words" class="text-brandDarkText font-bold uppercase underline decoration-brandOrange">Zero Rupees Only</span>
+                    </div>
+                </div>
+
+                <!-- Print & Reset Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                    <button type="button" onclick="generateAndPrintBill()" class="flex-1 py-3.5 px-6 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-base shadow-lg transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-print mr-2"></i> Print / Download Official Bill (PDF)
+                    </button>
+                    <button type="button" onclick="resetForm()" class="py-3.5 px-6 rounded-xl border border-brandCardBorder bg-brandCreamBg/30 hover:bg-brandCreamBg text-brandDarkText font-bold text-sm transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> Reset Form
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- ========================================== -->
+            <!-- 3. OFFICIAL PRINTABLE BILL (PDF PREVIEW)   -->
+            <!-- ========================================== -->
+            <div id="printable-bill-section" class="bg-white text-black p-6 sm:p-10 rounded-2xl border border-brandCardBorder shadow-md space-y-6 font-serif">
+                
+                <!-- Bill Title Header -->
+                <div class="text-center space-y-1">
+                    <h2 class="text-base sm:text-lg font-bold tracking-wide uppercase">DEPARTMENT OF POSTS</h2>
+                    <h1 class="text-lg sm:text-xl font-extrabold tracking-wider uppercase">TD COMMISSION BPM INCENTIVE BILL</h1>
+                </div>
+
+                <!-- BO / SO / HO Header Line -->
+                <div class="text-xs sm:text-sm font-semibold space-y-3 pt-2">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <span>BO: <span id="bill-bo" class="bill-line-field">__________</span></span>
+                        <span>SO: <span id="bill-so" class="bill-line-field">__________</span></span>
+                        <span>HO: <span id="bill-ho" class="bill-line-field">__________</span></span>
+                    </div>
+                    <div class="flex flex-wrap justify-between items-center gap-2 pt-1">
+                        <span>DATE: <span id="bill-date" class="bill-line-field">__________</span></span>
+                        <span>FOR THE MONTH OF: <span id="bill-month" class="bill-line-field">__________</span></span>
+                    </div>
+                </div>
+
+                <!-- Printable Table (Fixed Padding & Line Height) -->
+                <div class="pt-2">
+                    <table class="w-full text-left text-xs border-collapse border border-black">
+                        <thead>
+                            <tr class="bg-gray-200 text-black font-bold">
+                                <th class="border border-black p-2 text-center w-8">Sr</th>
+                                <th class="border border-black p-2">Account No</th>
+                                <th class="border border-black p-2">PR No</th>
+                                <th class="border border-black p-2">Name of Depositor</th>
+                                <th class="border border-black p-2 text-right">Deposit Amt</th>
+                                <th class="border border-black p-2 text-center">Term</th>
+                                <th class="border border-black p-2 text-center">Rate</th>
+                                <th class="border border-black p-2 text-right">Incentive</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bill-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Total Amount Summary -->
+                <div class="text-xs sm:text-sm font-bold space-y-1.5 pt-2">
+                    <p>TOTAL INCENTIVE AMOUNT: Rs. <span id="bill-total-incentive" class="text-sm">0.00</span></p>
+                    <p>RUPEES (IN WORDS): <span id="bill-rupees-words" class="uppercase">Zero Rupees Only</span></p>
+                </div>
+
+                <!-- Official Certifications -->
+                <div class="text-[11px] font-semibold space-y-1.5 pt-2 leading-relaxed">
+                    <p>CERTIFIED THAT INCENTIVE FOR ABOVE MENTIONED ACCOUNTS ARE NOT TAKEN EARLIER.</p>
+                    <p>CERTIFIED THAT ACCOUNTS ARE OPENED AT BRANCH OFFICE AND NOT THROUGH ANY SAS AGENTS.</p>
+                </div>
+
+                <!-- Signatures & Acceptance Blocks -->
+                <div class="space-y-8 pt-6 text-xs font-semibold">
+                    
+                    <!-- Acceptance 1 -->
+                    <div class="acceptance-block flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                        <div class="space-y-1.5">
+                            <p>PLEASE GIVE THE ACCEPTANCE OF INCENTIVE AMOUNT RS. <span id="bill-acc-1" class="font-bold">0.00</span></p>
+                            <p>RUPEES (IN WORDS) :- <span id="bill-acc-words-1" class="uppercase font-bold">Zero Rupees Only</span></p>
+                        </div>
+                        <div class="pt-4 sm:pt-0 font-bold text-right w-full sm:w-auto">
+                            SIGNATURE OF BPM
+                        </div>
+                    </div>
+
+                    <!-- Acceptance 2 -->
+                    <div class="acceptance-block flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                        <div class="space-y-1.5">
+                            <p>ACCEPTANCE GRANTED FOR THE AMOUNT OF RS. <span id="bill-acc-2" class="font-bold">0.00</span></p>
+                            <p>RUPEES (IN WORDS) :- <span id="bill-acc-words-2" class="uppercase font-bold">Zero Rupees Only</span></p>
+                        </div>
+                        <div class="pt-4 sm:pt-0 font-bold text-right w-full sm:w-auto">
+                            SIGNATURE OF SPM
+                        </div>
+                    </div>
+
+                    <!-- Acceptance 3 -->
+                    <div class="acceptance-block flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                        <div class="space-y-1.5">
+                            <p>INCENTIVE AMOUNT OF RS. <span id="bill-acc-3" class="font-bold">0.00</span></p>
+                            <p>RUPEES (IN WORDS) :- <span id="bill-acc-words-3" class="uppercase font-bold">Zero Rupees Only</span></p>
+                        </div>
+                        <div class="pt-4 sm:pt-0 font-bold text-right w-full sm:w-auto">
+                            SIGNATURE OF BPM
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER SECTION                          -->
+    <!-- ========================================== -->
+    <footer id="no-print-section" class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">About POSTALPRO</h3>
+                    <p class="flex items-center font-medium text-brandDarkText">
+                        Made with <i class="fa-solid fa-heart text-brandOrange mx-1.5 animate-pulse"></i> by one of your colleague
+                    </p>
+                    <p class="text-xs text-brandMutedText leading-relaxed">
+                        Dedicated to providing accurate departmental knowledge, postal tools, and utility calculators for postal employees nationwide.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/forms.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-file-lines text-xs text-brandOrange mr-2.5"></i> Forms</a></li>
+                        <li><a href="../footer - links/downloads.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-cloud-arrow-down text-xs text-brandOrange mr-2.5"></i> Downloads</a></li>
+                        <li><a href="../footer - links/external-links.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-up-right-from-square text-xs text-brandOrange mr-2.5"></i> External Links</a></li>
+                        <li><a href="../footer - links/public-notice.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-bell text-xs text-brandOrange mr-2.5"></i> Public Notice</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Information & Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/about - us.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-circle-info text-xs text-brandOrange mr-2.5"></i> About Us</a></li>
+                        <li><a href="../footer - links/contact page.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-envelope text-xs text-brandOrange mr-2.5"></i> Contact Us</a></li>
+                        <li><a href="../footer - links/privacy-policy.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-user-shield text-xs text-brandOrange mr-2.5"></i> Privacy Policy</a></li>
+                        <li><a href="../footer - links/sitemap.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-sitemap text-xs text-brandOrange mr-2.5"></i> Site Map</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="border-t border-brandCardBorder py-4 bg-brandCreamBg/30">
+            <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center gap-6 text-xs font-semibold">
+                <a href="../footer - links/disclaimer.html" class="hover:text-brandOrange transition-colors">DISCLAIMER</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/terms.html" class="hover:text-brandOrange transition-colors">TERMS & CONDITIONS</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/copyrights.html" class="hover:text-brandOrange transition-colors">COPYRIGHTS</a>
+            </div>
+        </div>
+
+        <div class="bg-brandOrange/10 border-t border-brandOrange/20 py-3 text-center text-xs font-bold tracking-widest text-brandOrange">
+            BUILT AND POWERED BY VAMSEE
+        </div>
+    </footer>
+
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" type="button" onclick="scrollToTop()" class="fixed bottom-6 right-6 hidden z-50 p-3.5 rounded-full bg-brandOrange text-white shadow-xl hover:bg-brandOrangeHover hover:scale-110 transition-all duration-300">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+
+    <!-- ========================================== -->
+    <!-- 5. JAVASCRIPT LOGIC & BILL CALCULATOR      -->
+    <!-- ========================================== -->
+    <script src="../js/main.js"></script>
+    <script>
+        let rowCount = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set Default Date to Today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('input-date').value = today;
+
+            // Set Default Month Name
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const now = new Date();
+            document.getElementById('input-month').value = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+
+            // Add Initial Account Entry Row
+            addAccountRow();
+
+            // Setup Event Listeners for Header Input Sync
+            ['input-bo', 'input-so', 'input-ho', 'input-date', 'input-month'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePrintableBill);
+            });
+        });
+
+        // Add New Row to Form
+        function addAccountRow() {
+            rowCount++;
+            const tableBody = document.getElementById('account-rows-container');
+
+            const tr = document.createElement('tr');
+            tr.id = `row-${rowCount}`;
+            tr.className = "hover:bg-brandCreamBg/20 transition-colors";
+
+            tr.innerHTML = `
+                <td class="p-2 text-center font-bold text-brandMutedText row-number">${rowCount}</td>
+                <td class="p-2"><input type="text" class="w-full p-2 rounded-lg border border-brandCardBorder text-xs acc-no" placeholder="Acc No" oninput="calculateBill()"></td>
+                <td class="p-2"><input type="text" class="w-full p-2 rounded-lg border border-brandCardBorder text-xs pr-no" placeholder="PR No" oninput="calculateBill()"></td>
+                <td class="p-2"><input type="text" class="w-full p-2 rounded-lg border border-brandCardBorder text-xs depositor-name" placeholder="Name" oninput="calculateBill()"></td>
+                <td class="p-2"><input type="number" step="0.01" class="w-full p-2 rounded-lg border border-brandCardBorder text-xs deposit-amt" placeholder="0.00" oninput="calculateBill()"></td>
+                <td class="p-2">
+                    <select class="w-full p-2 rounded-lg border border-brandCardBorder text-xs term-select" onchange="calculateBill()">
+                        <option value="1">1 Yr (0.5%)</option>
+                        <option value="2">2 Yr (1.0%)</option>
+                        <option value="3">3 Yr (1.0%)</option>
+                        <option value="5">5 Yr (2.0%)</option>
+                    </select>
+                </td>
+                <td class="p-2 text-center font-bold text-brandDarkText rate-display">0.5%</td>
+                <td class="p-2 text-right font-bold text-brandOrange incentive-display">0.00</td>
+                <td class="p-2 text-center">
+                    <button type="button" onclick="removeRow(${rowCount})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash-can"></i></button>
+                </td>
+            `;
+
+            tableBody.appendChild(tr);
+            updateRowNumbers();
+            calculateBill();
+        }
+
+        // Remove Row
+        function removeRow(id) {
+            const row = document.getElementById(`row-${id}`);
+            if (row) {
+                row.remove();
+                updateRowNumbers();
+                calculateBill();
+            }
+        }
+
+        // Update Serial Numbers
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('#account-rows-container tr');
+            rows.forEach((row, index) => {
+                row.querySelector('.row-number').textContent = index + 1;
+            });
+        }
+
+        // Calculation Logic
+        function calculateBill() {
+            const rows = document.querySelectorAll('#account-rows-container tr');
+            let totalIncentive = 0;
+
+            rows.forEach(row => {
+                const depositAmt = parseFloat(row.querySelector('.deposit-amt').value) || 0;
+                const term = row.querySelector('.term-select').value;
+                let rate = 0.5;
+
+                if (term === "1") rate = 0.5;
+                else if (term === "2" || term === "3") rate = 1.0;
+                else if (term === "5") rate = 2.0;
+
+                const incentive = (depositAmt * rate) / 100;
+                totalIncentive += incentive;
+
+                row.querySelector('.rate-display').textContent = `${rate}%`;
+                row.querySelector('.incentive-display').textContent = incentive.toFixed(2);
+            });
+
+            const totalIncentiveFormatted = totalIncentive.toFixed(2);
+            const rupeesInWords = numberToWords(totalIncentiveFormatted);
+
+            // Update Form UI
+            document.getElementById('live-total-incentive').textContent = `₹ ${totalIncentiveFormatted}`;
+            document.getElementById('live-rupees-words').textContent = rupeesInWords;
+
+            // Sync to Printable Preview
+            updatePrintableBill(totalIncentiveFormatted, rupeesInWords);
+        }
+
+        // Sync Form to Printable Preview Layout
+        function updatePrintableBill(totalAmt = "0.00", words = "Zero Rupees Only") {
+            // Header Info Sync
+            document.getElementById('bill-bo').textContent = document.getElementById('input-bo').value.trim() || "__________";
+            document.getElementById('bill-so').textContent = document.getElementById('input-so').value.trim() || "__________";
+            document.getElementById('bill-ho').textContent = document.getElementById('input-ho').value.trim() || "__________";
+            document.getElementById('bill-date').textContent = document.getElementById('input-date').value.trim() || "__________";
+            document.getElementById('bill-month').textContent = document.getElementById('input-month').value.trim() || "__________";
+
+            // Rows Sync
+            const formRows = document.querySelectorAll('#account-rows-container tr');
+            const printTableBody = document.getElementById('bill-table-body');
+            printTableBody.innerHTML = '';
+
+            if (formRows.length === 0) {
+                printTableBody.innerHTML = `<tr><td colspan="8" class="border border-black p-2 text-center text-gray-500">No accounts added yet</td></tr>`;
+            } else {
+                formRows.forEach((row, idx) => {
+                    const accNo = row.querySelector('.acc-no').value.trim() || '-';
+                    const prNo = row.querySelector('.pr-no').value.trim() || '-';
+                    const name = row.querySelector('.depositor-name').value.trim() || '-';
+                    const amt = parseFloat(row.querySelector('.deposit-amt').value || 0).toFixed(2);
+                    const termVal = row.querySelector('.term-select').value;
+                    const rateText = row.querySelector('.rate-display').textContent;
+                    const incText = row.querySelector('.incentive-display').textContent;
+
+                    const printTr = document.createElement('tr');
+                    printTr.innerHTML = `
+                        <td class="border border-black p-2 text-center font-bold">${idx + 1}</td>
+                        <td class="border border-black p-2 font-mono">${accNo}</td>
+                        <td class="border border-black p-2">${prNo}</td>
+                        <td class="border border-black p-2">${name}</td>
+                        <td class="border border-black p-2 text-right font-mono">${amt}</td>
+                        <td class="border border-black p-2 text-center">${termVal} Yr</td>
+                        <td class="border border-black p-2 text-center">${rateText}</td>
+                        <td class="border border-black p-2 text-right font-bold font-mono">${incText}</td>
+                    `;
+                    printTableBody.appendChild(printTr);
+                });
+            }
+
+            // Totals Sync
+            if (typeof totalAmt !== 'string') {
+                const currentTotal = Array.from(document.querySelectorAll('.incentive-display')).reduce((sum, el) => sum + parseFloat(el.textContent || 0), 0);
+                totalAmt = currentTotal.toFixed(2);
+                words = numberToWords(totalAmt);
+            }
+
+            document.getElementById('bill-total-incentive').textContent = totalAmt;
+            document.getElementById('bill-rupees-words').textContent = words;
+
+            document.getElementById('bill-acc-1').textContent = totalAmt;
+            document.getElementById('bill-acc-words-1').textContent = words;
+
+            document.getElementById('bill-acc-2').textContent = totalAmt;
+            document.getElementById('bill-acc-words-2').textContent = words;
+
+            document.getElementById('bill-acc-3').textContent = totalAmt;
+            document.getElementById('bill-acc-words-3').textContent = words;
+        }
+
+        // Number to Words Converter
+        function numberToWords(amount) {
+            const num = parseFloat(amount);
+            if (isNaN(num) || num === 0) return "Zero Rupees Only";
+
+            const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+            const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            function inWords(n) {
+                if ((n = n.toString()).length > 9) return 'overflow';
+                let n_array = ('000000000' + n).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                if (!n_array) return '';
+                let str = '';
+                str += (n_array[1] != 0) ? (a[Number(n_array[1])] || b[n_array[1][0]] + ' ' + a[n_array[1][1]]) + 'Crore ' : '';
+                str += (n_array[2] != 0) ? (a[Number(n_array[2])] || b[n_array[2][0]] + ' ' + a[n_array[2][1]]) + 'Lakh ' : '';
+                str += (n_array[3] != 0) ? (a[Number(n_array[3])] || b[n_array[3][0]] + ' ' + a[n_array[3][1]]) + 'Thousand ' : '';
+                str += (n_array[4] != 0) ? (a[Number(n_array[4])] || b[n_array[4][0]] + ' ' + a[n_array[4][1]]) + 'Hundred ' : '';
+                str += (n_array[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n_array[5])] || b[n_array[5][0]] + ' ' + a[n_array[5][1]]) : '';
+                return str;
+            }
+
+            const parts = amount.toString().split('.');
+            let rupees = inWords(parseInt(parts[0], 10));
+            let paise = parts[1] && parseInt(parts[1], 10) > 0 ? inWords(parseInt(parts[1], 10)) : '';
+
+            let result = rupees ? `${rupees.trim()} Rupees` : '';
+            if (paise) {
+                result += `${result ? ' and ' : ''}${paise.trim()} Paise`;
+            }
+            return `${result} Only`;
+        }
+
+        // Print PDF Command
+        function generateAndPrintBill() {
+            calculateBill();
+            window.print();
+        }
+
+        // Reset Form
+        function resetForm() {
+            if (confirm("Are you sure you want to clear all inputs?")) {
+                document.getElementById('input-bo').value = '';
+                document.getElementById('input-so').value = '';
+                document.getElementById('input-ho').value = '';
+                document.getElementById('account-rows-container').innerHTML = '';
+                rowCount = 0;
+                addAccountRow();
+            }
+        }
+    </script>
+</body>
+</html>

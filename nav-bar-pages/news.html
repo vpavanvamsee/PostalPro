@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest News & Updates - POSTALPRO</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandOrangeHover: '#d45312',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between selection:bg-brandOrange selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- 1. STICKY NAVIGATION BAR WITH HAMBURGER    -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-1.5 text-2xl font-black tracking-wider font-poppins">
+                <span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange transition-colors">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="hover:text-brandOrange transition-colors">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="text-brandOrange font-bold">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange transition-colors">Practice</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-btn" type="button" class="p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText hover:text-brandOrange focus:outline-none transition-all shadow-sm">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                    <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="../nav-bar-pages/tools.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-wrench text-brandOrange mr-2.5"></i> Tools
+            </a>
+            <a href="../nav-bar-pages/guides.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-book-open text-brandOrange mr-2.5"></i> Guides
+            </a>
+            <a href="../nav-bar-pages/news.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-bullhorn text-brandOrange mr-2.5"></i> News & Updates
+            </a>
+            <a href="../nav-bar-pages/practice.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-graduation-cap text-brandOrange mr-2.5"></i> Practice Quizzes
+            </a>
+        </div>
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto space-y-10">
+            
+            <!-- Hero Header -->
+            <div class="text-center space-y-3">
+                <span class="bg-brandOrange/15 text-brandOrange font-bold text-xs px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    Official Announcements
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold font-poppins text-brandDarkText">
+                    Departmental News & Circulars
+                </h1>
+                <p class="text-brandMutedText max-w-xl mx-auto text-sm sm:text-base font-medium">
+                    Stay updated with GDS recruitment notifications, Post Office acts, interest rate revisions, and CEPT circulars.
+                </p>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="max-w-2xl mx-auto">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-brandMutedText"></i>
+                    <input type="text" id="news-search" onkeyup="filterNews()" placeholder="Search news by title or keyword e.g. GDS, POSB, Act 2024..." 
+                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-brandCardBorder bg-brandCardBg text-sm font-medium shadow-sm focus:outline-none focus:border-brandOrange">
+                </div>
+            </div>
+
+            <!-- 1. LATEST IN SITE (FEATURED BANNER) -->
+            <div id="latest-featured-box" class="bg-brandCardBg border-2 border-brandOrange rounded-2xl p-6 sm:p-8 shadow-md">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <span class="bg-brandOrange text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">
+                        <i class="fa-solid fa-bolt mr-1"></i> LATEST IN SITE
+                    </span>
+                    <span class="text-xs font-semibold text-brandMutedText"><i class="fa-regular fa-calendar-check text-brandOrange mr-1"></i> Today's Update</span>
+                </div>
+                <h2 class="text-2xl font-extrabold font-poppins text-brandDarkText mb-2">
+                    <a href="duplicate-news.html" class="hover:text-brandOrange transition-colors">GDS Recruitment Schedule 2024 Notification Out</a>
+                </h2>
+                <p class="text-sm text-brandMutedText font-medium leading-relaxed mb-4">
+                    The Department of Posts has released the official schedule for Gramin Dak Sevak (GDS) recruitment for 2024. Check eligibility, application opening dates, and circle-wise vacancies.
+                </p>
+                <a href="duplicate-news.html" class="inline-flex items-center text-xs font-bold text-brandOrange hover:text-brandOrangeHover">
+                    Read Full Announcement <i class="fa-solid fa-arrow-right-long ml-2"></i>
+                </a>
+            </div>
+
+            <!-- 2. ALL NEWS LIST (NEWEST FIRST) -->
+            <div id="news-list" class="space-y-4">
+                <h3 class="text-lg font-bold font-poppins text-brandOrange flex items-center border-b border-brandCardBorder pb-2">
+                    <i class="fa-solid fa-list mr-2"></i> Recent Updates
+                </h3>
+
+                <!-- News Item 1 -->
+                <article class="news-card bg-brandCardBg border border-brandCardBorder rounded-2xl p-5 shadow-sm hover:border-brandOrange transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 text-xs font-semibold text-brandMutedText">
+                            <span class="text-brandOrange font-bold">Tools Release</span>
+                            <span>•</span>
+                            <span>Oct 24, 2024</span>
+                        </div>
+                        <h4 class="news-title text-base sm:text-lg font-bold font-poppins text-brandDarkText">
+                            <a href="td-bill-generator.html" class="hover:text-brandOrange transition-colors">BPM TD Bill Generator Live Tool Released</a>
+                        </h4>
+                        <p class="news-desc text-xs text-brandMutedText line-clamp-2">Calculate POTD commission rates automatically and generate official BPM incentive bills ready for print.</p>
+                    </div>
+                    <a href="td-bill-generator.html" class="shrink-0 px-4 py-2 rounded-xl bg-brandCreamBg/60 text-brandOrange font-bold text-xs hover:bg-brandOrange hover:text-white transition-all">
+                        View Tool <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </a>
+                </article>
+
+                <!-- News Item 2 -->
+                <article class="news-card bg-brandCardBg border border-brandCardBorder rounded-2xl p-5 shadow-sm hover:border-brandOrange transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 text-xs font-semibold text-brandMutedText">
+                            <span class="text-brandOrange font-bold">Gazette</span>
+                            <span>•</span>
+                            <span>Oct 20, 2024</span>
+                        </div>
+                        <h4 class="news-title text-base sm:text-lg font-bold font-poppins text-brandDarkText">
+                            <a href="duplicate-news.html" class="hover:text-brandOrange transition-colors">Post Office Act 2024 Rules and Enforcement Gazette</a>
+                        </h4>
+                        <p class="news-desc text-xs text-brandMutedText line-clamp-2">Detailed breakdown of Post Office Act 2024 clauses replacing historical acts with updated regulations.</p>
+                    </div>
+                    <a href="duplicate-news.html" class="shrink-0 px-4 py-2 rounded-xl bg-brandCreamBg/60 text-brandOrange font-bold text-xs hover:bg-brandOrange hover:text-white transition-all">
+                        Read News <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </a>
+                </article>
+
+                <!-- News Item 3 -->
+                <article class="news-card bg-brandCardBg border border-brandCardBorder rounded-2xl p-5 shadow-sm hover:border-brandOrange transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 text-xs font-semibold text-brandMutedText">
+                            <span class="text-brandOrange font-bold">POSB Circular</span>
+                            <span>•</span>
+                            <span>Oct 15, 2024</span>
+                        </div>
+                        <h4 class="news-title text-base sm:text-lg font-bold font-poppins text-brandDarkText">
+                            <a href="duplicate-news.html" class="hover:text-brandOrange transition-colors">New POSB Interest Rates Revisions for Q3</a>
+                        </h4>
+                        <p class="news-desc text-xs text-brandMutedText line-clamp-2">Ministry of Finance announces updated interest rates for POTD, PPF, Sukanya Samriddhi, and Senior Citizen schemes.</p>
+                    </div>
+                    <a href="duplicate-news.html" class="shrink-0 px-4 py-2 rounded-xl bg-brandCreamBg/60 text-brandOrange font-bold text-xs hover:bg-brandOrange hover:text-white transition-all">
+                        Read News <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </a>
+                </article>
+
+                <!-- News Item 4 -->
+                <article class="news-card bg-brandCardBg border border-brandCardBorder rounded-2xl p-5 shadow-sm hover:border-brandOrange transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 text-xs font-semibold text-brandMutedText">
+                            <span class="text-brandOrange font-bold">PLI / RPLI</span>
+                            <span>•</span>
+                            <span>Oct 10, 2024</span>
+                        </div>
+                        <h4 class="news-title text-base sm:text-lg font-bold font-poppins text-brandDarkText">
+                            <a href="duplicate-news.html" class="hover:text-brandOrange transition-colors">Bonus Structure & Agent Incentives for PLI/RPLI</a>
+                        </h4>
+                        <p class="news-desc text-xs text-brandMutedText line-clamp-2">New bonus rates declared for Postal Life Insurance policies alongside updated agent commission slabs.</p>
+                    </div>
+                    <a href="duplicate-news.html" class="shrink-0 px-4 py-2 rounded-xl bg-brandCreamBg/60 text-brandOrange font-bold text-xs hover:bg-brandOrange hover:text-white transition-all">
+                        Read News <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </a>
+                </article>
+            </div>
+
+        </div>
+    </main>
+
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER SECTION                          -->
+    <!-- ========================================== -->
+    <footer id="no-print-section" class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">About POSTALPRO</h3>
+                    <p class="flex items-center font-medium text-brandDarkText">
+                        Made with <i class="fa-solid fa-heart text-brandOrange mx-1.5 animate-pulse"></i> by one of your colleague
+                    </p>
+                    <p class="text-xs text-brandMutedText leading-relaxed">
+                        Dedicated to providing accurate departmental knowledge, postal tools, and utility calculators for postal employees nationwide.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/forms.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-file-lines text-xs text-brandOrange mr-2.5"></i> Forms</a></li>
+                        <li><a href="../footer - links/downloads.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-cloud-arrow-down text-xs text-brandOrange mr-2.5"></i> Downloads</a></li>
+                        <li><a href="../footer - links/external-links.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-up-right-from-square text-xs text-brandOrange mr-2.5"></i> External Links</a></li>
+                        <li><a href="../footer - links/public-notice.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-bell text-xs text-brandOrange mr-2.5"></i> Public Notice</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Information & Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/about - us.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-circle-info text-xs text-brandOrange mr-2.5"></i> About Us</a></li>
+                        <li><a href="../footer - links/contact page.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-envelope text-xs text-brandOrange mr-2.5"></i> Contact Us</a></li>
+                        <li><a href="../footer - links/privacy-policy.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-user-shield text-xs text-brandOrange mr-2.5"></i> Privacy Policy</a></li>
+                        <li><a href="../footer - links/sitemap.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-sitemap text-xs text-brandOrange mr-2.5"></i> Site Map</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="border-t border-brandCardBorder py-4 bg-brandCreamBg/30">
+            <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center gap-6 text-xs font-semibold">
+                <a href="../footer - links/disclaimer.html" class="hover:text-brandOrange transition-colors">DISCLAIMER</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/terms.html" class="hover:text-brandOrange transition-colors">TERMS & CONDITIONS</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/copyrights.html" class="hover:text-brandOrange transition-colors">COPYRIGHTS</a>
+            </div>
+        </div>
+
+        <div class="bg-brandOrange/10 border-t border-brandOrange/20 py-3 text-center text-xs font-bold tracking-widest text-brandOrange">
+            BUILT AND POWERED BY VAMSEE
+        </div>
+    </footer>
+
+
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" type="button" onclick="scrollToTop()" class="fixed bottom-6 right-6 hidden z-50 p-3.5 rounded-full bg-brandOrange text-white shadow-xl hover:bg-brandOrangeHover hover:scale-110 transition-all duration-300">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+
+    <script src="../js/main.js"></script>
+    <script>
+        function filterNews() {
+            const query = document.getElementById('news-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.news-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.news-title').textContent.toLowerCase();
+                const desc = card.querySelector('.news-desc').textContent.toLowerCase();
+
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

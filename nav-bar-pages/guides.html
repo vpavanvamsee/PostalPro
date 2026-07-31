@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postal Guides, Manuals & Acts - POSTALPRO</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons 6.5.1 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts (Poppins & Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandOrangeHover: '#d45312',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                        brandMutedText: '#5a4d41',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between selection:bg-brandOrange selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- 1. STICKY NAVIGATION BAR WITH HAMBURGER    -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-1.5 text-2xl font-black tracking-wider font-poppins">
+                <span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange transition-colors">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="text-brandOrange font-bold">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="hover:text-brandOrange transition-colors">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange transition-colors">Practice</a>
+            </nav>
+
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-btn" type="button" class="p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText hover:text-brandOrange focus:outline-none transition-all shadow-sm">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                    <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="../nav-bar-pages/tools.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold bg-brandCreamBg/60 text-brandOrange">
+                <i class="fa-solid fa-wrench text-brandOrange mr-2.5"></i> Tools
+            </a>
+            <a href="../nav-bar-pages/guides.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange">
+                <i class="fa-solid fa-book-open text-brandOrange mr-2.5"></i> Guides
+            </a>
+            <a href="../nav-bar-pages/news.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange">
+                <i class="fa-solid fa-bullhorn text-brandOrange mr-2.5"></i> News & Updates
+            </a>
+            <a href="../nav-bar-pages/practice.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange">
+                <i class="fa-solid fa-graduation-cap text-brandOrange mr-2.5"></i> Practice Quizzes
+            </a>
+        </div>
+    </header>
+
+
+
+    <!-- MAIN BODY -->
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto space-y-10">
+            
+            <!-- Hero Header -->
+            <div class="text-center space-y-3">
+                <span class="bg-brandOrange/15 text-brandOrange font-bold text-xs px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    Departmental Documentation
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold font-poppins text-brandDarkText">
+                    Postal Guides, Manuals & Acts
+                </h1>
+                <p class="text-brandMutedText max-w-2xl mx-auto text-sm sm:text-base font-medium">
+                    Comprehensive knowledge hub featuring Post Office Guides, Postal Volumes, Act Amendments, SB Orders, and IT Modernization manuals.
+                </p>
+            </div>
+
+            <!-- Quick Search Bar -->
+            <div class="max-w-2xl mx-auto">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-brandMutedText"></i>
+                    <input type="text" id="guide-search" onkeyup="filterGuides()" placeholder="Search guides e.g. PO Guide Part 1, Volume 5, Act 2024..." 
+                           class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-brandCardBorder bg-brandCardBg text-sm font-medium shadow-sm focus:outline-none focus:border-brandOrange">
+                </div>
+            </div>
+
+            <!-- GUIDES GRID -->
+            <div id="guides-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. PO Guides Part 1 & Part 2 -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">Official Guide</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            Post Office Guides (Part I & II)
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            General rules, organization, business hours, postage rates, transmission conditions, and foreign post regulations.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> PO Guide Part I (Inland Post)</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> PO Guide Part II (Foreign Post)</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Read PO Guides</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 2. Postal Manual Volumes -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-book-journal-whills"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">Volumes V - VIII</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            Postal Manual Volumes
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Complete compilation of Postal Manual Volume 5 (Definitions), Volume 6, Volume 7 (Sorting), and Volume 8 rules.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Volume V Definitions</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Volume VI & VII Sorting Rules</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Explore Volumes</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 3. Post Office Act 2024 -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandOrange text-white font-bold px-2.5 py-1 rounded-full">Updated 2024</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            Post Office Act 2024 & Amendments
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Comprehensive framework of Post Office Act 2024 replacing the historical 1898 Act with gazette notifications.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Post Office Act 2024 Gazette</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Key Amendments & Clauses</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Read Act Details</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 4. POSB Rules & SB Orders -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-piggy-bank"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">SB Repository</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            POSB Rules & SB Orders
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Savings Bank General Rules 2019, latest SB order circulars, interest rates, and silent account reactivation procedures.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> POSB General Rules 2019</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Latest SB Orders Index</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>View SB Orders</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 5. PLI / RPLI Guidelines -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">Insurance</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            PLI & RPLI Guidelines
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Policy acceptance rules, medical officer guidelines, agent commission structures, bonus rates, and claim procedures.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> PLI/RPLI Rule Handbook</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Incentive & Bonus Tables</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Read Insurance Rules</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 6. GDS Conduct & Engagement Rules -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">GDS Rules</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            GDS Conduct & Engagement Rules
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Gramin Dak Sevak (Conduct and Engagement) Rules 2020, leave rules, TRCA slabs, transfer policy, and gratuity scheme.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> GDS Conduct Rules 2020</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> GDS Online Transfer Guidelines</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Read GDS Rules</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 7. CEPT & DARPAN User Manuals -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">IT Software</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            DARPAN 2.0 & Finacle User Manuals
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            Step-by-step user manuals for DARPAN Android app, Finacle CBS operations, McCamish, CSI, and SAP module guides.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> DARPAN Android App Guide</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> Finacle Menu Shortcodes List</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Download User Manuals</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- 8. IPPB Services Guide -->
+                <div class="guide-card group bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-brandOrange transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-brandOrange/10 border border-brandOrange/20 text-brandOrange flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <span class="text-[11px] bg-brandCreamBg font-bold px-2.5 py-1 rounded-full text-brandDarkText">IPPB Banking</span>
+                        </div>
+                        <h2 class="guide-title text-xl font-bold font-poppins text-brandDarkText group-hover:text-brandOrange transition-colors mb-2">
+                            IPPB Services & Agent Manual
+                        </h2>
+                        <p class="guide-desc text-xs text-brandMutedText leading-relaxed mb-4">
+                            India Post Payments Bank doorstep banking services, AePS cash withdrawal, digital life certificate (DLC), and merchant onboarding.
+                        </p>
+                        <ul class="text-xs font-medium text-brandDarkText space-y-1.5 pt-2 border-t border-brandCardBorder">
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> AePS & DLC Process Flow</li>
+                            <li><i class="fa-solid fa-circle-chevron-right text-[10px] text-brandOrange mr-1.5"></i> IPPB Agent Commission Table</li>
+                        </ul>
+                    </div>
+                    <a href="update.html" class="mt-6 inline-flex items-center text-xs font-bold text-brandOrange">
+                        <span>Read IPPB Guide</span> <i class="fa-solid fa-arrow-right-long ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER SECTION                          -->
+    <!-- ========================================== -->
+    <footer id="no-print-section" class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">About POSTALPRO</h3>
+                    <p class="flex items-center font-medium text-brandDarkText">
+                        Made with <i class="fa-solid fa-heart text-brandOrange mx-1.5 animate-pulse"></i> by one of your colleague
+                    </p>
+                    <p class="text-xs text-brandMutedText leading-relaxed">
+                        Dedicated to providing accurate departmental knowledge, postal tools, and utility calculators for postal employees nationwide.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/forms.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-file-lines text-xs text-brandOrange mr-2.5"></i> Forms</a></li>
+                        <li><a href="../footer - links/downloads.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-cloud-arrow-down text-xs text-brandOrange mr-2.5"></i> Downloads</a></li>
+                        <li><a href="../footer - links/external-links.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-up-right-from-square text-xs text-brandOrange mr-2.5"></i> External Links</a></li>
+                        <li><a href="../footer - links/public-notice.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-bell text-xs text-brandOrange mr-2.5"></i> Public Notice</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Information & Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/about - us.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-circle-info text-xs text-brandOrange mr-2.5"></i> About Us</a></li>
+                        <li><a href="../footer - links/contact page.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-envelope text-xs text-brandOrange mr-2.5"></i> Contact Us</a></li>
+                        <li><a href="../footer - links/privacy-policy.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-user-shield text-xs text-brandOrange mr-2.5"></i> Privacy Policy</a></li>
+                        <li><a href="../footer - links/sitemap.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-sitemap text-xs text-brandOrange mr-2.5"></i> Site Map</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="border-t border-brandCardBorder py-4 bg-brandCreamBg/30">
+            <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center gap-6 text-xs font-semibold">
+                <a href="../footer - links/disclaimer.html" class="hover:text-brandOrange transition-colors">DISCLAIMER</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/terms.html" class="hover:text-brandOrange transition-colors">TERMS & CONDITIONS</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/copyrights.html" class="hover:text-brandOrange transition-colors">COPYRIGHTS</a>
+            </div>
+        </div>
+
+        <div class="bg-brandOrange/10 border-t border-brandOrange/20 py-3 text-center text-xs font-bold tracking-widest text-brandOrange">
+            BUILT AND POWERED BY VAMSEE
+        </div>
+    </footer>
+
+
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" type="button" onclick="scrollToTop()" class="fixed bottom-6 right-6 hidden z-50 p-3.5 rounded-full bg-brandOrange text-white shadow-xl hover:bg-brandOrangeHover hover:scale-110 transition-all duration-300">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+
+
+
+    <!-- JS & SEARCH FILTER SCRIPT -->
+    <script>
+        function filterGuides() {
+            const query = document.getElementById('guide-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.guide-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.guide-title').textContent.toLowerCase();
+                const desc = card.querySelector('.guide-desc').textContent.toLowerCase();
+                
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        </script>
+        <script src="../js/main.js"></script>
+</body>
+</html>

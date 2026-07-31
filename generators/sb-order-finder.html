@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Order Finder - POSTALPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                    },
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between">
+
+    <!-- ========================================== -->
+    <!-- 1. STICKY NAVIGATION BAR WITH HAMBURGER    -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-1.5 text-2xl font-black tracking-wider font-poppins">
+                <span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="../nav-bar-pages/tools.html" class="hover:text-brandOrange transition-colors">Tools</a>
+                <a href="../nav-bar-pages/guides.html" class="hover:text-brandOrange transition-colors">Guides</a>
+                <a href="../nav-bar-pages/news.html" class="hover:text-brandOrange transition-colors">News</a>
+                <a href="../nav-bar-pages/practice.html" class="hover:text-brandOrange transition-colors">Practice</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-btn" type="button" class="p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText hover:text-brandOrange focus:outline-none transition-all shadow-sm">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                    <i id="close-icon" class="fa-solid fa-xmark text-xl hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-brandCardBorder bg-brandCardBg px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="../nav-bar-pages/tools.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-wrench text-brandOrange mr-2.5"></i> Tools
+            </a>
+            <a href="../nav-bar-pages/guides.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-book-open text-brandOrange mr-2.5"></i> Guides
+            </a>
+            <a href="../nav-bar-pages/news.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-bullhorn text-brandOrange mr-2.5"></i> News & Updates
+            </a>
+            <a href="../nav-bar-pages/practice.html" class="mobile-nav-link block py-2.5 px-3 rounded-lg font-semibold hover:bg-brandCreamBg hover:text-brandOrange transition-colors">
+                <i class="fa-solid fa-graduation-cap text-brandOrange mr-2.5"></i> Practice Quizzes
+            </a>
+        </div>
+    </header>
+
+
+
+    <main class="flex-grow py-12 px-4">
+        <div class="max-w-4xl mx-auto space-y-6">
+            
+            <div class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-brandOrange/10 text-brandOrange flex items-center justify-center text-xl"><i class="fa-solid fa-file-contract"></i></div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-poppins text-brandDarkText">SB Order Finder</h1>
+                        <p class="text-xs text-brandMutedText">Search POSB Savings Bank Order circulars by year, number, or subject.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <input type="text" id="sb-input" placeholder="Enter SB Order No or topic e.g. SB Order 05/2024 or NEFT" class="flex-1 p-3 rounded-xl border border-brandCardBorder bg-brandCreamBg/20 text-sm font-medium focus:outline-none focus:border-brandOrange">
+                    <button type="button" onclick="searchSBOrder()" class="px-6 py-3 rounded-xl bg-brandOrange text-white font-bold text-sm shadow-md hover:bg-brandOrangeHover">Search</button>
+                </div>
+
+                <div class="space-y-1.5 pt-2">
+                    <span class="text-xs font-bold text-brandMutedText flex items-center"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Recent Searches:</span>
+                    <div id="sb-recent-history" class="flex flex-wrap gap-2 text-xs"></div>
+                </div>
+            </div>
+
+            <div id="sb-results" class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm space-y-4">
+                <h2 class="text-base font-bold font-poppins text-brandOrange border-b border-brandCardBorder pb-2">Matching SB Orders</h2>
+                <div id="sb-results-container" class="space-y-3 text-xs font-medium">
+                    <p class="text-brandMutedText italic">Enter an SB Order number or keyword above to search circulars.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER SECTION                          -->
+    <!-- ========================================== -->
+    <footer id="no-print-section" class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">About POSTALPRO</h3>
+                    <p class="flex items-center font-medium text-brandDarkText">
+                        Made with <i class="fa-solid fa-heart text-brandOrange mx-1.5 animate-pulse"></i> by one of your colleague
+                    </p>
+                    <p class="text-xs text-brandMutedText leading-relaxed">
+                        Dedicated to providing accurate departmental knowledge, postal tools, and utility calculators for postal employees nationwide.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/forms.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-file-lines text-xs text-brandOrange mr-2.5"></i> Forms</a></li>
+                        <li><a href="../footer - links/downloads.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-cloud-arrow-down text-xs text-brandOrange mr-2.5"></i> Downloads</a></li>
+                        <li><a href="../footer - links/external-links.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-up-right-from-square text-xs text-brandOrange mr-2.5"></i> External Links</a></li>
+                        <li><a href="../footer - links/public-notice.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-bell text-xs text-brandOrange mr-2.5"></i> Public Notice</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-brandDarkText font-bold text-base font-poppins">Information & Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../footer - links/about - us.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-circle-info text-xs text-brandOrange mr-2.5"></i> About Us</a></li>
+                        <li><a href="../footer - links/contact page.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-envelope text-xs text-brandOrange mr-2.5"></i> Contact Us</a></li>
+                        <li><a href="../footer - links/privacy-policy.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-user-shield text-xs text-brandOrange mr-2.5"></i> Privacy Policy</a></li>
+                        <li><a href="../footer - links/sitemap.html" class="hover:text-brandOrange transition-colors flex items-center font-medium"><i class="fa-solid fa-sitemap text-xs text-brandOrange mr-2.5"></i> Site Map</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="border-t border-brandCardBorder py-4 bg-brandCreamBg/30">
+            <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center gap-6 text-xs font-semibold">
+                <a href="../footer - links/disclaimer.html" class="hover:text-brandOrange transition-colors">DISCLAIMER</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/terms.html" class="hover:text-brandOrange transition-colors">TERMS & CONDITIONS</a>
+                <span class="text-brandCardBorder">|</span>
+                <a href="../footer - links/copyrights.html" class="hover:text-brandOrange transition-colors">COPYRIGHTS</a>
+            </div>
+        </div>
+
+        <div class="bg-brandOrange/10 border-t border-brandOrange/20 py-3 text-center text-xs font-bold tracking-widest text-brandOrange">
+            BUILT AND POWERED BY VAMSEE
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- 4. FLOATING BACK TO TOP BUTTON            -->
+    <!-- ========================================== -->
+    <button id="back-to-top" type="button" onclick="scrollToTop()" aria-label="Back to top"
+        class="fixed bottom-6 right-6 hidden z-50 p-3.5 rounded-full bg-brandOrange text-white shadow-xl hover:bg-brandOrangeHover hover:scale-110 transition-all duration-300">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadSBHistory);
+
+        function searchSBOrder() {
+            const query = document.getElementById('sb-input').value.trim();
+            if (!query) return alert("Please enter an SB Order number or keyword.");
+
+            saveSBHistory(query);
+
+            const container = document.getElementById('sb-results-container');
+            container.innerHTML = `
+                <div class="p-4 rounded-xl bg-brandCreamBg/30 border border-brandCardBorder flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-sm text-brandDarkText">SB Order No. 05/2024</span>
+                        <p class="text-brandMutedText mt-1">Subject: Revision of POSB Interest rates and NEFT/RTGS transaction limits in Post Offices.</p>
+                    </div>
+                    <a href="assets/sb-order-sample.pdf" download class="px-4 py-2 rounded-xl bg-brandOrange text-white font-bold text-xs shrink-0">Download PDF</a>
+                </div>
+            `;
+        }
+
+        function saveSBHistory(term) {
+            let history = JSON.parse(localStorage.getItem('postal_sb_history') || '[]');
+            if (!history.includes(term)) {
+                history.unshift(term);
+                if (history.length > 5) history.pop();
+                localStorage.setItem('postal_sb_history', JSON.stringify(history));
+            }
+            loadSBHistory();
+        }
+
+        function loadSBHistory() {
+            let history = JSON.parse(localStorage.getItem('postal_sb_history') || '[]');
+            const historyBox = document.getElementById('sb-recent-history');
+            historyBox.innerHTML = '';
+
+            if (history.length === 0) {
+                historyBox.innerHTML = `<span class="text-brandMutedText italic">No recent search history</span>`;
+                return;
+            }
+
+            history.forEach(term => {
+                const badge = document.createElement('button');
+                badge.className = "px-3 py-1 rounded-full bg-brandCreamBg border border-brandCardBorder hover:border-brandOrange text-brandDarkText font-bold";
+                badge.textContent = term;
+                badge.onclick = () => {
+                    document.getElementById('sb-input').value = term;
+                    searchSBOrder();
+                };
+                historyBox.appendChild(badge);
+            });
+        }
+    </script>
+</body>
+</html>

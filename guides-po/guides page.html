@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PO Guide Part 1 & 2 Material - POSTALPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandOrange: '#eb631b',
+                        brandDarkText: '#120e0f',
+                        brandCreamBg: '#f6e9c9',
+                        brandCardBg: '#ffffff',
+                        brandCardBorder: '#e2d1a8',
+                    },
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandCreamBg text-brandDarkText font-inter min-h-screen flex flex-col justify-between">
+
+    <header class="sticky top-0 z-50 bg-brandCreamBg/90 border-b border-brandCardBorder shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-black font-poppins"><span class="text-brandDarkText">POSTAL</span><span class="text-brandOrange">PRO</span></a>
+            <nav class="hidden md:flex space-x-8 font-semibold text-sm">
+                <a href="tools.html" class="hover:text-brandOrange">Tools</a>
+                <a href="guides.html" class="text-brandOrange font-bold">Guides</a>
+                <a href="news.html" class="hover:text-brandOrange">News</a>
+                <a href="practice.html" class="hover:text-brandOrange">Practice</a>
+            </nav>
+            <button id="mobile-menu-btn" type="button" class="md:hidden p-2.5 rounded-xl border border-brandCardBorder bg-brandCardBg text-brandDarkText"><i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+    </header>
+
+    <main class="flex-grow py-12 px-4">
+        <div class="max-w-4xl mx-auto space-y-8">
+            
+            <!-- TABS -->
+            <div class="flex border-b border-brandCardBorder space-x-4">
+                <button class="py-3 px-6 font-bold text-sm border-b-2 border-brandOrange text-brandOrange">PO GUIDE PART 1</button>
+                <button class="py-3 px-6 font-bold text-sm text-brandMutedText hover:text-brandOrange">PO GUIDE PART 2</button>
+            </div>
+
+            <!-- CHAPTER INDEX -->
+            <div class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 shadow-sm space-y-4">
+                <h1 class="text-2xl font-extrabold font-poppins text-brandDarkText">PO GUIDE PART 1</h1>
+                <ol class="list-decimal list-inside space-y-2 text-sm font-semibold text-brandDarkText">
+                    <li><a href="#section-org" class="hover:text-brandOrange">Organisation</a></li>
+                    <li><a href="#section-types" class="hover:text-brandOrange">Types of post office</a></li>
+                    <li><a href="#section-night" class="hover:text-brandOrange">Night post offices</a></li>
+                    <li><a href="#section-mobile" class="hover:text-brandOrange">Mobile post offices</a></li>
+                    <li><a href="#section-hours" class="hover:text-brandOrange">Business hours</a></li>
+                </ol>
+            </div>
+
+            <!-- MATERIAL CONTENT -->
+            <article id="section-types" class="bg-brandCardBg border border-brandCardBorder rounded-2xl p-6 sm:p-10 shadow-sm space-y-6">
+                <h2 class="text-xl font-bold font-poppins text-brandOrange">2. Types of Post Office</h2>
+                
+                <div class="space-y-3 text-sm font-medium leading-relaxed">
+                    <p class="font-bold text-base">THERE ARE 3 TYPES OF POST OFFICES:</p>
+                    <ol class="list-decimal list-inside space-y-1 pl-2">
+                        <li>Head office</li>
+                        <li>Sub office</li>
+                        <li>Branch office</li>
+                    </ol>
+                    <p class="text-brandMutedText italic">...AND SO ON</p>
+                </div>
+
+                <!-- EXAM QUESTIONS BLOCK -->
+                <div class="bg-brandCreamBg/40 border border-brandCardBorder p-6 rounded-2xl space-y-4">
+                    <h3 class="font-extrabold font-poppins text-brandOrange text-base tracking-wider uppercase border-b border-brandCardBorder pb-2">
+                        EXAM POINT OF VIEW QUESTIONS
+                    </h3>
+                    <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm font-bold text-brandDarkText">
+                        <li>HOW MANY TYPES OF POST OFFICES ARE THERE?</li>
+                        <li>HEAD OF BO?</li>
+                        <li>SO ACCOUNTS JURISDICTION?</li>
+                    </ol>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="bg-brandCardBg border-t border-brandCardBorder text-brandDarkText text-sm">
+        <div class="max-w-6xl mx-auto px-4 py-6 text-center text-xs font-bold text-brandOrange">BUILT AND POWERED BY VAMSEE</div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
