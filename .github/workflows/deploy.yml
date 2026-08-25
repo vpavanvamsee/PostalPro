@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Full Website and PLI Leads
 
 on:
   push:
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,32 +26,34 @@ jobs:
         with:
           node-version: 22
 
-      # 1. Install dependencies inside the plileads subfolder
-      - name: Install dependencies
+      # 1. Build the PLI Leads app
+      - name: Build PLI Leads App
         working-directory: ./plileads
-        run: npm install --no-audit --no-fund --legacy-peer-deps
+        run: |
+          npm install --no-audit --no-fund --legacy-peer-deps
+          npm run build
 
-      # 2. Build Vite App inside the plileads subfolder
-      - name: Build React Vite App
-        working-directory: ./plileads
-        run: npm run build
+      # 2. Assemble both Main Website and PLI Leads into one directory
+      - name: Assemble Full Website
+        run: |
+          mkdir -p final_output
+          
+          # Copy all main website root files to final_output
+          rsync -av --exclude='plileads' --exclude='.git' --exclude='.github' --exclude='final_output' ./ final_output/ || cp -r $(ls -A | grep -v -E '^(plileads|\.git|\.github|final_output)$') final_output/
+          
+          # Place the compiled PLI app into the /plileads subfolder
+          mkdir -p final_output/plileads
+          cp -r ./plileads/dist/* final_output/plileads/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
 
-      # 3. Upload the dist folder generated inside plileads
+      # 3. Upload the combined output (Root site + /plileads/)
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './plileads/dist'
+          path: './final_output'
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
