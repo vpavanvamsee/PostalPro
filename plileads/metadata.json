@@ -1,0 +1,6 @@
+{
+  "name": "PLI & RPLI Smart Lead & Poster Studio",
+  "description": "Encrypted PWA lead capture, live quote calculator, objection buster, and high-res multilingual marketing poster generator for PLI and RPLI agents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
