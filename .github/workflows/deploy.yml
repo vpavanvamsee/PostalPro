@@ -21,26 +21,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      # 1. Install dependencies inside the plileads subfolder
       - name: Install dependencies
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
+        working-directory: ./plileads
+        run: npm install --no-audit --no-fund --legacy-peer-deps
 
+      # 2. Build Vite App inside the plileads subfolder
       - name: Build React Vite App
-        run: |
-          npm run build
+        working-directory: ./plileads
+        run: npm run build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
 
+      # 3. Upload the dist folder generated inside plileads
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './plileads/dist'
 
   deploy:
     needs: build
