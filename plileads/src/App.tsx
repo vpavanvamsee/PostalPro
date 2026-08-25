@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Users, Megaphone, User, Plus } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { LeadsTab } from './components/LeadsTab';
 import { MarketingTab } from './components/MarketingTab';
@@ -13,6 +14,7 @@ import { PosterModal } from './components/PosterModal';
 import { AgentProfile, LanguageCode, Lead, ProspectTask } from './types';
 import { decryptData, encryptData } from './utils/crypto';
 import { DEFAULT_AGENT, INITIAL_PROSPECTS, INITIAL_SAMPLE_LEADS } from './utils/sampleData';
+import { t } from './utils/i18n';
 
 const VAULT_LEADS_KEY = 'postalpro_vault_leads_v1';
 const VAULT_AGENT_KEY = 'postalpro_vault_agent_v1';
@@ -314,7 +316,7 @@ export default function App() {
       />
 
       {/* Footer Branding */}
-      <footer className="bg-emerald-950 text-emerald-300 py-6 border-t border-emerald-900 text-center text-xs print:hidden">
+      <footer className="bg-emerald-950 text-emerald-300 py-6 border-t border-emerald-900 text-center text-xs print:hidden mb-16 sm:mb-0">
         <div className="max-w-7xl mx-auto px-4 space-y-1">
           <p className="font-semibold text-white">
             PLI & RPLI Smart Lead & Poster Studio • by PostalPro
@@ -324,6 +326,73 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Mobile Sticky Bottom Navigation Bar (Visible only on mobile screens < sm) */}
+      <nav 
+        aria-label="Mobile bottom navigation"
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-emerald-950/95 backdrop-blur-md border-t border-emerald-800/80 px-2 py-1.5 flex items-center justify-around shadow-2xl"
+      >
+        {/* Tab 1: Leads */}
+        <button
+          id="mobile-bottom-nav-leads"
+          onClick={() => setCurrentTab('leads')}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-lg text-[10px] font-bold transition cursor-pointer ${
+            currentTab === 'leads'
+              ? 'text-emerald-300 bg-emerald-900/60'
+              : 'text-emerald-400/70 hover:text-emerald-200'
+          }`}
+        >
+          <div className="relative">
+            <Users className="w-5 h-5" />
+            {leads.length > 0 && (
+              <span className="absolute -top-1 -right-2 px-1.5 py-0.2 text-[9px] font-black rounded-full bg-emerald-400 text-emerald-950">
+                {leads.length}
+              </span>
+            )}
+          </div>
+          <span className="mt-0.5">Leads</span>
+        </button>
+
+        {/* Action Center: + New Quote */}
+        <button
+          id="mobile-bottom-nav-new-quote"
+          onClick={() => {
+            setEditingLead(null);
+            setIsLeadModalOpen(true);
+          }}
+          className="flex flex-col items-center justify-center -mt-5 bg-linear-to-r from-emerald-500 to-teal-500 text-white p-3 rounded-full shadow-lg border-2 border-emerald-900 active:scale-95 transition cursor-pointer"
+        >
+          <Plus className="w-6 h-6 stroke-[3]" />
+        </button>
+
+        {/* Tab 2: Marketing */}
+        <button
+          id="mobile-bottom-nav-marketing"
+          onClick={() => setCurrentTab('marketing')}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-lg text-[10px] font-bold transition cursor-pointer ${
+            currentTab === 'marketing'
+              ? 'text-emerald-300 bg-emerald-900/60'
+              : 'text-emerald-400/70 hover:text-emerald-200'
+          }`}
+        >
+          <Megaphone className="w-5 h-5" />
+          <span className="mt-0.5">Marketing</span>
+        </button>
+
+        {/* Tab 3: Profile */}
+        <button
+          id="mobile-bottom-nav-profile"
+          onClick={() => setCurrentTab('profile')}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-lg text-[10px] font-bold transition cursor-pointer ${
+            currentTab === 'profile'
+              ? 'text-emerald-300 bg-emerald-900/60'
+              : 'text-emerald-400/70 hover:text-emerald-200'
+          }`}
+        >
+          <User className="w-5 h-5" />
+          <span className="mt-0.5">Profile</span>
+        </button>
+      </nav>
 
     </div>
   );
