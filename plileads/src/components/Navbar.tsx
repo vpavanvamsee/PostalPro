@@ -56,24 +56,30 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Top Header Row */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
         {/* Brand with White Icon Container */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center text-emerald-900 shrink-0">
+        <a 
+          id="header-brand-home-link"
+          href="https://postalpro.in/"
+          target="_self"
+          title="Go to PostalPro Home"
+          className="flex items-center gap-2.5 sm:gap-3 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-lg pr-2 transition"
+        >
+          <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center text-emerald-900 shrink-0 group-hover:scale-105 transition-transform">
             <Mail className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <h1 className="font-bold text-base sm:text-lg leading-none tracking-tight text-white truncate">
+              <h1 className="font-bold text-base sm:text-lg leading-none tracking-tight text-white group-hover:text-emerald-200 transition-colors truncate">
                 PostalPro
               </h1>
-              <span className="bg-emerald-800/90 text-emerald-200 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border border-emerald-700/60 shrink-0">
-                PLI & RPLI
-              </span>
-            </div>
-            <p className="text-[10px] uppercase tracking-widest text-emerald-200/80 font-semibold mt-0.5 truncate">
-              Smart Lead Studio
-            </p>
-          </div>
-        </div>
+                <span className="bg-emerald-800/90 text-emerald-200 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border border-emerald-700/60 shrink-0">
+                  PLI & RPLI
+                </span>
+              </div>
+                <p className="text-[10px] uppercase tracking-widest text-emerald-200/80 font-semibold mt-0.5 truncate">
+                  Smart Lead Studio
+                </p>
+              </div>
+          </a>
 
         {/* Desktop Right Tools: Hidden on Mobile (< sm), visible on sm+ */}
         <div className="hidden sm:flex items-center gap-3">
