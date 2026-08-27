@@ -1,0 +1,6 @@
+{
+  "name": "India Post • TD Bill Studio",
+  "description": "Department of Posts India Official TD Commission BPM Incentive Bill Generator, 12-digit Finacle account validator, ₹50,000 single deposit rules, duplicate detection, and 256-bit encrypted vault by PostalPro.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
