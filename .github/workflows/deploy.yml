@@ -1,8 +1,8 @@
-name: Deploy Full Website and PLI Leads
+name: Deploy PostalPro to GitHub Pages
 
 on:
   push:
-    branches: ['main', 'master']
+    branches: ["main"] # change to "master" if your default branch is master
   workflow_dispatch:
 
 permissions:
@@ -11,49 +11,43 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 22
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
+          cache: 'npm'
 
-      # 1. Build the PLI Leads app
-      - name: Build PLI Leads App
-        working-directory: ./plileads
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
+      - name: Install dependencies
+        run: npm ci || npm install
 
-      # 2. Assemble both Main Website and PLI Leads into one directory
-      - name: Assemble Full Website
-        run: |
-          mkdir -p final_output
-          
-          # Copy all main website root files to final_output
-          rsync -av --exclude='plileads' --exclude='.git' --exclude='.github' --exclude='final_output' ./ final_output/ || cp -r $(ls -A | grep -v -E '^(plileads|\.git|\.github|final_output)$') final_output/
-          
-          # Place the compiled PLI app into the /plileads subfolder
-          mkdir -p final_output/plileads
-          cp -r ./plileads/dist/* final_output/plileads/
+      - name: Build static site
+        run: npm run build
 
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # 3. Upload the combined output (Root site + /plileads/)
-      - name: Upload Pages Artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './final_output'
+          path: './dist'
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
