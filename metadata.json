@@ -1,0 +1,6 @@
+{
+  "name": "PostalPro India",
+  "description": "Comprehensive Postal Utility Hub for India Post BPMs, ABPMs, and Dak Sevaks featuring official TD Commission BPM Bill Generator, PLI Leads Prospecting WebApp, DIGIPIN lookup, and Grassroots Marketing Playbooks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

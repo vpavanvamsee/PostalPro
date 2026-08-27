@@ -1,0 +1,6 @@
+# Robots.txt for PostalPro India (https://postalpro.in/)
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://postalpro.in/sitemap.xml

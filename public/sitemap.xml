@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Home Page / Main Postal Hub -->
+  <url>
+    <loc>https://postalpro.in/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- TD Bill Generator (High Search Intent Priority) -->
+  <url>
+    <loc>https://postalpro.in/tdbill/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- PLI & RPLI Leads Manager & Quotes Pro -->
+  <url>
+    <loc>https://postalpro.in/plileads/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Interactive Postal Utilities & Calculators -->
+  <url>
+    <loc>https://postalpro.in/#tools</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- GDS Grassroots Marketing Hub & Playbooks -->
+  <url>
+    <loc>https://postalpro.in/#marketing</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- PLI & RPLI Leads Manager -->
+  <url>
+    <loc>https://postalpro.in/#plileads</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- DIGIPIN Geo-Location Finder -->
+  <url>
+    <loc>https://postalpro.in/#digipin</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
