@@ -2,7 +2,7 @@ name: Deploy PostalPro to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # change to "master" if your default branch is master
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -26,11 +26,33 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install
+      # 1. Build Root Project (PostalPro)
+      - name: Build Root Project
+        run: |
+          npm install
+          npm run build
 
-      - name: Build site
-        run: npm run build
+      # 2. Build PLI Leads into dist/plileads if it has its own package.json
+      - name: Build PLI Leads
+        if: hashFiles('public/plileads/package.json') != ''
+        run: |
+          cd public/plileads
+          npm install
+          npm run build
+          mkdir -p ../../dist/plileads
+          cp -r dist/* ../../dist/plileads/
+          cd ../..
+
+      # 3. Build TD Bill into dist/tdbill if it has its own package.json
+      - name: Build TD Bill
+        if: hashFiles('public/tdbill/package.json') != ''
+        run: |
+          cd public/tdbill
+          npm install
+          npm run build
+          mkdir -p ../../dist/tdbill
+          cp -r dist/* ../../dist/tdbill/
+          cd ../..
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
