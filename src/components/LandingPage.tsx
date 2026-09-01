@@ -73,6 +73,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         themeObj={themeObj}
         t={t}
         onOpenModal={onOpenLegalModal}
+        onNavigate={onNavigate}
       />
     </div>
   );
