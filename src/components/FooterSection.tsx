@@ -15,6 +15,7 @@ interface FooterSectionProps {
   themeObj: ThemeDefinition;
   t: TranslationDict;
   onOpenModal: (view: AppView) => void;
+  onNavigate?: (view: AppView) => void;
 }
 
 // Official Authentic SVG Icons
@@ -69,38 +70,48 @@ const OfficialTelegramIcon: React.FC<{ className?: string }> = ({ className = "w
 export const FooterSection: React.FC<FooterSectionProps> = ({
   themeObj,
   t,
-  onOpenModal
+  onOpenModal,
+  onNavigate
 }) => {
   const isLight = themeObj.isLight;
   const isRetro = themeObj.id === 'retroCream';
+
+  const handleNavOrModal = (target: AppView) => {
+    if (onNavigate) {
+      onNavigate(target);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      onOpenModal(target);
+    }
+  };
 
   // Social Links (all redirect / open in new tab)
   const socialLinks = [
     {
       name: 'WhatsApp Community',
-      subtitle: 'Instant Updates & Group',
-      href: 'https://wa.me/919999999999?text=Hello%20PostalPro%20Team!%20I%20am%20using%20PostalPro%20tools.',
+      subtitle: '+91 6309833253',
+      href: 'https://wa.me/916309833253?text=Hello%20PostalPro%20Team!%20I%20am%20using%20PostalPro%20tools.',
       icon: OfficialWhatsAppIcon,
       badge: 'Active Chat'
     },
     {
       name: 'Instagram Channel',
-      subtitle: '@postalpro.in',
-      href: 'https://instagram.com/postalpro.in',
+      subtitle: '@pavan048',
+      href: 'https://www.instagram.com/pavan048/',
       icon: OfficialInstagramIcon,
       badge: 'Visual Guides'
     },
     {
       name: 'Facebook Group',
-      subtitle: 'PostalPro Community',
-      href: 'https://facebook.com/postalpro.in',
+      subtitle: 'Vemula Pavan Vamsee',
+      href: 'https://www.facebook.com/vemulapavanvamsee/',
       icon: OfficialFacebookIcon,
       badge: 'Discussion'
     },
     {
-      name: 'Telegram Group',
-      subtitle: 'Department Updates',
-      href: 'https://t.me/postalpro_in',
+      name: 'Telegram Channel',
+      subtitle: '@postalproindia',
+      href: 'https://t.me/postalproindia',
       icon: OfficialTelegramIcon,
       badge: 'Alerts'
     }
@@ -180,8 +191,23 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 </a>
               </li>
               <li>
+                <a 
+                  href="https://postalpro.in/schemeshare/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`hover:text-amber-500 transition inline-flex items-center gap-1.5 ${
+                    isLight ? 'text-slate-600 hover:text-amber-600' : 'text-slate-400 hover:text-amber-400'
+                  }`}
+                >
+                  <span>SchemeShare Post-Delivery Intimations</span>
+                  <ExternalLink className="w-3 h-3 opacity-70" />
+                </a>
+              </li>
+              <li>
                 <button 
-                  onClick={() => onOpenModal('tools')}
+                  type="button"
+                  id="footer-tools-suite-link"
+                  onClick={() => handleNavOrModal('tools')}
                   className={`hover:text-amber-500 transition cursor-pointer text-left ${
                     isLight ? 'text-slate-600 hover:text-amber-600' : 'text-slate-400 hover:text-amber-400'
                   }`}
@@ -191,7 +217,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               </li>
               <li>
                 <button 
-                  onClick={() => onOpenModal('marketing')}
+                  type="button"
+                  id="footer-marketing-playbook-link"
+                  onClick={() => handleNavOrModal('marketing')}
                   className={`hover:text-amber-500 transition cursor-pointer text-left ${
                     isLight ? 'text-slate-600 hover:text-amber-600' : 'text-slate-400 hover:text-amber-400'
                   }`}
@@ -282,6 +310,18 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               })}
             </div>
           </div>
+        </div>
+
+        {/* Official Disclaimer Note */}
+        <div className={`p-4 rounded-xl border text-xs leading-relaxed transition-colors ${
+          isLight 
+            ? 'bg-amber-500/5 border-amber-500/20 text-slate-700' 
+            : 'bg-amber-500/10 border-amber-500/20 text-slate-300'
+        }`}>
+          <p className="text-center font-normal">
+            <strong className="font-semibold text-amber-700 dark:text-amber-400">Disclaimer: </strong>
+            PostalPro.in is an independent informational and utility initiative created for Indian postal staff. This platform is not officially affiliated with, endorsed by, or connected to India Post, the Department of Posts, or the United States Postal Service (USPS).
+          </p>
         </div>
 
         {/* Bottom Copyright Strip */}
