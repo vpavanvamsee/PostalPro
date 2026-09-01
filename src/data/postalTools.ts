@@ -22,6 +22,17 @@ export const POSTAL_TOOLS: PostalToolItem[] = [
     targetView: 'plileads',
     externalUrl: 'https://postalpro.in/plileads/',
     featured: true
+  },
+  {
+    id: 'scheme-share',
+    title: 'SchemeShare',
+    badge: 'Postman & BPM Tool',
+    category: 'Marketing',
+    description: 'Post-delivery WhatsApp message & scheme recommender for BPMs, ABPMs, Dak Sevaks & Postmen.',
+    iconName: 'Share2',
+    targetView: 'schemeshare',
+    externalUrl: 'https://postalpro.in/schemeshare/',
+    featured: true
   }
 ];
 
