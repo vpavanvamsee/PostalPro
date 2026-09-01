@@ -28,6 +28,14 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- SchemeShare Post-Delivery Customer WhatsApp Message & Scheme Recommender -->
+  <url>
+    <loc>https://postalpro.in/schemeshare/</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- Interactive Postal Utilities & Calculators -->
   <url>
     <loc>https://postalpro.in/#tools</loc>
