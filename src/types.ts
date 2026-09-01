@@ -59,6 +59,7 @@ export type AppView =
   | 'home' 
   | 'tdbill' 
   | 'plileads' 
+  | 'schemeshare'
   | 'marketing' 
   | 'quizzes' 
   | 'guides'
