@@ -80,11 +80,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="navbar-new-quote-btn"
               onClick={onOpenNewQuote}
-              className="bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-white font-bold py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+              className="bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-white font-bold p-2 sm:py-2 sm:px-4 rounded-full text-xs sm:text-sm transition-all shadow-sm flex items-center gap-1.5 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span className="hidden sm:inline">{t(language, 'newLead')}</span>
-              <span className="sm:hidden">Quote</span>
             </button>
           </div>
         </div>
