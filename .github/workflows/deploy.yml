@@ -1,58 +1,43 @@
-name: Deploy PostalPro to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main # Change to 'master' if your default branch is named master
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
+          cache: 'npm'
 
-      # 1. Build Root Project (PostalPro)
-      - name: Build Root Project
-        run: |
-          npm install
-          npm run build
+      - name: Install dependencies
+        run: npm ci || npm install
 
-      # 2. Build PLI Leads into dist/plileads if it has its own package.json
-      - name: Build PLI Leads
-        if: hashFiles('public/plileads/package.json') != ''
-        run: |
-          cd public/plileads
-          npm install
-          npm run build
-          mkdir -p ../../dist/plileads
-          cp -r dist/* ../../dist/plileads/
-          cd ../..
-
-      # 3. Build TD Bill into dist/tdbill if it has its own package.json
-      - name: Build TD Bill
-        if: hashFiles('public/tdbill/package.json') != ''
-        run: |
-          cd public/tdbill
-          npm install
-          npm run build
-          mkdir -p ../../dist/tdbill
-          cp -r dist/* ../../dist/tdbill/
-          cd ../..
+      - name: Build application (compiles React app & copies public/ tools)
+        run: npm run build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
@@ -60,15 +45,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Vite outputs the combined site + public directory into 'dist'
           path: './dist'
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
