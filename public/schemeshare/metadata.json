@@ -1,0 +1,6 @@
+{
+  "name": "SchemeShare by PostalPro",
+  "description": "A lightweight, zero-cloud, privacy-first field companion for postal employees to deliver verified scheme information and doorstep updates directly via WhatsApp.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

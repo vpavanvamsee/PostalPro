@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="en" class="min-h-full bg-slate-50 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SchemeShare by PostalPro | Secure Postal Outreach & Scheme CRM</title>
+  <meta name="description" content="A lightweight, zero-cloud, privacy-first field companion for postal employees to deliver verified scheme information and doorstep updates directly via WhatsApp.">
+  <meta name="theme-color" content="#1e40af">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SchemeShare by PostalPro | Secure Postal Outreach & Scheme CRM">
+  <meta property="og:description" content="A lightweight, zero-cloud, privacy-first field companion for postal employees to deliver verified scheme information and doorstep updates directly via WhatsApp.">
+  <meta property="og:site_name" content="SchemeShare by PostalPro">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SchemeShare by PostalPro | Secure Postal Outreach & Scheme CRM">
+  <meta name="twitter:description" content="A lightweight, zero-cloud, privacy-first field companion for postal employees to deliver verified scheme information and doorstep updates directly via WhatsApp.">
+
+  <!-- JSON-LD Structured Data Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SchemeShare by PostalPro",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "description": "A lightweight, zero-cloud, privacy-first field companion for postal employees to deliver verified scheme information and doorstep updates directly via WhatsApp."
+  }
+  </script>
+
+  <!-- Typography: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            cobalt: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+              950: '#172554'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- HTML5 QR Code Scanner CDN -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    /* Global elimination of all vertical and horizontal scroll indicators */
+    * {
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none !important; }
+    .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+
+    /* Clean custom utility enhancements */
+    .sunlight-readable {
+      text-shadow: 0 0 1px rgba(0,0,0,0.1);
+    }
+    
+    /* Touch target ergonomics */
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    /* Red Jitter Shake Animation for Invalid Auth */
+    @keyframes jitter-shake {
+      0%, 100% { transform: translateX(0); }
+      15%, 55%, 85% { transform: translateX(-8px) rotate(-0.5deg); }
+      30%, 70% { transform: translateX(8px) rotate(0.5deg); }
+    }
+    .jitter-error {
+      animation: jitter-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+  </style>
+</head>
+<body class="min-h-full bg-slate-100 text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+
+  <!-- AUTH GATE CONTAINER (DUAL TAB: EMPLOYEE ID & ADMIN PORTAL) -->
+  <div id="authGateContainer" class="fixed inset-0 z-50 overflow-y-auto bg-slate-950/85 backdrop-blur-xs p-3 sm:p-4">
+    <div class="min-h-full flex items-center justify-center py-4 sm:py-6">
+      <div id="authGateCard" class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto transition-all">
+      
+      <!-- Top Branding Header -->
+      <div class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 p-5 text-white text-center relative">
+        <div class="w-14 h-14 bg-white/10 rounded-2xl border border-white/20 flex items-center justify-center mx-auto mb-2.5 shadow-inner">
+          <i class="fa-solid fa-shield-halved text-2xl text-amber-400"></i>
+        </div>
+        <h2 class="text-lg font-extrabold tracking-tight">PostalPro Secure Hub</h2>
+        <p class="text-xs text-blue-200 font-medium">SchemeShare • Zero-Knowledge Outreach Ledger</p>
+
+        <!-- DUAL TAB SWITCHER (EMPLOYEE LOGIN VS ADMIN PORTAL) -->
+        <div class="mt-4 bg-blue-950/80 p-1 rounded-xl border border-blue-800/80 flex items-center gap-1">
+          <button 
+            type="button" 
+            id="authTabEmployeeBtn" 
+            class="flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer bg-white text-blue-950 shadow-xs"
+          >
+            <i class="fa-solid fa-user-shield text-xs"></i>
+            <span>Employee Login</span>
+          </button>
+          <button 
+            type="button" 
+            id="authTabAdminBtn" 
+            class="flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer text-blue-200 hover:text-white hover:bg-white/10"
+          >
+            <i class="fa-solid fa-lock-open text-xs"></i>
+            <span>Admin Portal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 1: EMPLOYEE LOGIN VIEW -->
+      <div id="authEmployeeView" class="p-6">
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3.5 mb-4 flex items-start space-x-3">
+          <i class="fa-solid fa-lock text-blue-700 mt-0.5 text-sm shrink-0"></i>
+          <p class="text-xs text-blue-900 font-medium leading-relaxed">
+            Enter your Official Employee ID / CSI ID to access your encrypted local SchemeShare ledger. Data remains 100% on this device.
+          </p>
+        </div>
+
+        <form id="authGateForm" class="space-y-4">
+          <div>
+            <label for="authEmpIdInput" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Official Employee ID</label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="authEmpIdInput" 
+                autocomplete="off" 
+                placeholder="Enter Official Employee ID" 
+                class="w-full text-center tracking-wider text-base font-mono font-bold uppercase pl-4 pr-10 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition-all" 
+                required 
+                autofocus
+              />
+              <button 
+                type="button" 
+                id="toggleAuthMaskBtn" 
+                class="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-slate-600 transition cursor-pointer p-1"
+                title="Toggle Visibility"
+              >
+                <i id="toggleAuthMaskIcon" class="fa-solid fa-eye text-sm"></i>
+              </button>
+            </div>
+            <div id="authErrorContainer" class="hidden mt-2">
+              <p id="authErrorMsg" class="text-xs text-red-700 font-semibold bg-red-50 p-2.5 rounded-xl border border-red-200 flex items-start gap-2"></p>
+            </div>
+          </div>
+
+          <button type="submit" id="authSubmitBtn" class="w-full touch-target bg-blue-700 hover:bg-blue-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer">
+            <span>Unlock Local Ledger</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+          </button>
+        </form>
+
+        <!-- NEED HELP / REGISTER -->
+        <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-col items-center">
+          <button 
+            type="button" 
+            id="openContactAdminBtn" 
+            class="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center justify-center space-x-2 py-2 px-3 rounded-xl hover:bg-blue-50 transition cursor-pointer w-full border border-blue-200/80 bg-blue-50/50"
+          >
+            <i class="fa-solid fa-user-plus text-blue-600 text-sm"></i>
+            <span>New User? Register & Request Verification</span>
+          </button>
+        </div>
+
+        <div class="mt-3 pt-2.5 border-t border-slate-100 text-center">
+          <p class="text-[11px] text-slate-400 font-medium flex items-center justify-center">
+            <i class="fa-solid fa-fingerprint text-slate-400 mr-1.5"></i>
+            Web Crypto SHA-256 Client-Side Key Derivation
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB 2: ADMIN PORTAL VIEW (GOOGLE AUTHENTICATOR 2FA & EMAIL OTP) -->
+      <div id="authAdminView" class="hidden p-6 space-y-4">
+        
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start space-x-2.5">
+          <i class="fa-solid fa-shield-cat text-amber-700 mt-0.5 text-sm shrink-0"></i>
+          <div class="text-xs text-amber-900">
+            <p class="font-bold">Restricted Administrator Portal</p>
+            <p class="text-[11px] text-amber-800 mt-0.5">
+              Authorized administrators only. Enter your verified email address and security credentials to proceed.
+            </p>
+          </div>
+        </div>
+
+        <!-- Auth Method Selector (Google Authenticator vs Email OTP) -->
+        <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl">
+          <button 
+            type="button" 
+            id="adminAuthMethodTotpBtn" 
+            class="py-2 px-3 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs flex items-center justify-center space-x-1.5 transition cursor-pointer"
+          >
+            <i class="fa-solid fa-mobile-screen-button text-blue-600 text-xs"></i>
+            <span>Google 2FA</span>
+          </button>
+          <button 
+            type="button" 
+            id="adminAuthMethodEmailBtn" 
+            class="py-2 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1.5 transition cursor-pointer"
+          >
+            <i class="fa-solid fa-envelope text-xs"></i>
+            <span>Email OTP</span>
+          </button>
+        </div>
+
+        <!-- METHOD 1: INSTANT GOOGLE AUTHENTICATOR 2FA -->
+        <div id="adminTotpMethodContainer" class="space-y-3.5">
+          <form id="adminTotpLoginForm" class="space-y-3.5">
+            <div>
+              <label for="adminTotpEmailInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Admin Email Address
+              </label>
+              <input 
+                type="email" 
+                id="adminTotpEmailInput" 
+                placeholder="Enter authorized admin email" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label for="adminTotpCodeInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Google Authenticator 6-Digit Code
+                </label>
+                <span class="text-[10px] text-blue-700 font-bold">Instant Login</span>
+              </div>
+              <input 
+                type="text" 
+                id="adminTotpCodeInput" 
+                maxlength="6" 
+                placeholder="• • • • • •" 
+                class="w-full text-center tracking-widest text-xl font-mono font-black py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+
+            <div id="adminTotpErrorContainer" class="hidden">
+              <p id="adminTotpErrorMsg" class="text-xs text-red-700 font-semibold bg-red-50 p-2.5 rounded-xl border border-red-200"></p>
+            </div>
+
+            <button 
+              type="submit" 
+              id="adminTotpSubmitBtn" 
+              class="w-full touch-target bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer"
+            >
+              <i class="fa-solid fa-shield-halved text-xs"></i>
+              <span>Verify 2FA & Access Console</span>
+            </button>
+          </form>
+
+          <!-- Authenticator Setup Guide Accordion -->
+          <details id="totpSetupAccordion" class="group bg-slate-50 border border-slate-200 rounded-xl overflow-hidden text-xs">
+            <summary class="flex items-center justify-between p-3 cursor-pointer text-xs font-bold text-slate-700 select-none group-open:bg-slate-100">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-qrcode text-blue-600"></i>
+                Setup Google Authenticator Key
+              </span>
+              <i class="fa-solid fa-chevron-down text-slate-400 transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="p-3.5 space-y-3 bg-white border-t border-slate-200">
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                Add <strong>PostalPro Admin</strong> to Google Authenticator or Microsoft Authenticator app on your phone:
+              </p>
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div>
+                  <span class="text-[10px] text-slate-400 font-bold uppercase block">Base32 Secret Key</span>
+                  <code id="adminTotpSecretDisplay" class="font-mono font-bold text-xs text-blue-900 tracking-wider">POSTALPROADMIN2FA</code>
+                </div>
+                <button 
+                  type="button" 
+                  id="copyTotpSecretBtn" 
+                  class="touch-target px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-bold rounded-lg transition shrink-0 cursor-pointer"
+                >
+                  <i class="fa-solid fa-copy mr-1"></i> Copy Key
+                </button>
+              </div>
+              <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-600 pl-1">
+                <li>Open Google Authenticator app</li>
+                <li>Tap <strong>+</strong> and select <strong>Enter a setup key</strong></li>
+                <li>Account name: <code class="text-blue-800">PostalPro Admin</code></li>
+                <li>Your key: <code class="text-blue-800 font-mono">POSTALPROADMIN2FA</code> (Time-based)</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+
+        <!-- METHOD 2: EMAIL OTP AUTHENTICATION (FALLBACK) -->
+        <div id="adminEmailMethodContainer" class="hidden space-y-3.5">
+          <!-- STEP A: REQUEST ADMIN OTP -->
+          <div id="adminAuthRequestStep" class="space-y-3.5">
+            <form id="adminSendOtpForm" class="space-y-3.5">
+              <div>
+                <label for="adminAuthEmailInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Admin Email Address
+                </label>
+                <input 
+                  type="email" 
+                  id="adminAuthEmailInput" 
+                  placeholder="Enter authorized admin email" 
+                  class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                  required
+                />
+              </div>
+
+              <div id="adminAuthErrorContainer" class="hidden">
+                <p id="adminAuthErrorMsg" class="text-xs text-red-700 font-semibold bg-red-50 p-2.5 rounded-xl border border-red-200"></p>
+              </div>
+
+              <button 
+                type="submit" 
+                id="adminSendOtpBtn" 
+                class="w-full touch-target bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer"
+              >
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+                <span>Send 6-Digit Login OTP</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- STEP B: VERIFY ADMIN OTP -->
+          <div id="adminAuthVerifyStep" class="hidden space-y-3.5">
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-950 flex items-start space-x-2.5">
+              <i class="fa-solid fa-envelope-circle-check text-emerald-600 text-base mt-0.5 shrink-0"></i>
+              <div>
+                <p class="font-bold">OTP Dispatched</p>
+                <p class="text-[11px] text-emerald-800 mt-0.5">
+                  6-digit code dispatched to <strong id="adminOtpEmailTargetLabel">postalpro.in@gmail.com</strong>.
+                </p>
+              </div>
+            </div>
+
+            <form id="adminVerifyOtpForm" class="space-y-3.5">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="adminOtpInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                    Enter 6-Digit Email OTP
+                  </label>
+                  <span class="text-[10px] text-slate-400 font-bold">Expires in 10m</span>
+                </div>
+                <input 
+                  type="text" 
+                  id="adminOtpInput" 
+                  maxlength="6" 
+                  placeholder="123456" 
+                  class="w-full text-center tracking-widest text-xl font-mono font-black py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-600 focus:bg-white focus:outline-none transition" 
+                  required
+                />
+              </div>
+
+              <div id="adminVerifyErrorContainer" class="hidden">
+                <p id="adminVerifyErrorMsg" class="text-xs text-red-700 font-semibold bg-red-50 p-2.5 rounded-xl border border-red-200"></p>
+              </div>
+
+              <button 
+                type="submit" 
+                id="adminVerifyOtpBtn" 
+                class="w-full touch-target bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer"
+              >
+                <i class="fa-solid fa-shield-check text-xs"></i>
+                <span>Verify & Open Clearance Console</span>
+              </button>
+
+              <div class="flex items-center justify-between pt-1 text-xs">
+                <button 
+                  type="button" 
+                  id="adminOtpBackBtn" 
+                  class="text-slate-500 hover:text-slate-800 font-bold cursor-pointer"
+                >
+                  ← Change Email
+                </button>
+                <button 
+                  type="button" 
+                  id="adminOtpResendBtn" 
+                  class="text-blue-700 hover:text-blue-900 font-bold cursor-pointer"
+                >
+                  Resend OTP
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  <!-- CONTACT ADMIN & EMPLOYEE VERIFICATION MODAL -->
+  <div id="contactAdminModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto no-scrollbar modal-backdrop-anim">
+    <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto flex flex-col no-scrollbar modal-card-anim">
+      
+      <!-- Modal Header -->
+      <header class="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-blue-800 flex items-center justify-center text-amber-400 shadow-inner shrink-0">
+            <i class="fa-solid fa-id-card-clip text-xl"></i>
+          </div>
+          <div class="min-w-0">
+            <h3 class="text-sm sm:text-base font-extrabold tracking-tight text-white truncate">Department Employee Verification</h3>
+            <p class="text-[11px] text-slate-300 font-medium truncate">
+              Admin Support • Official Identity & Account Provisioning
+            </p>
+          </div>
+        </div>
+        <button id="closeContactAdminModalBtn" type="button" class="touch-target text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer shrink-0 ml-2" title="Close">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </header>
+
+      <!-- View A: Verification Submission Form -->
+      <div id="contactAdminFormView" class="p-4 sm:p-6 overflow-y-auto no-scrollbar max-h-[80vh] space-y-4">
+        
+        <!-- Official Notice Box -->
+        <div class="bg-blue-50/90 border border-blue-200 rounded-xl p-3.5 flex items-start space-x-3 text-xs text-blue-950 leading-relaxed">
+          <i class="fa-solid fa-shield-halved text-blue-700 text-base mt-0.5 shrink-0"></i>
+          <div>
+            <p class="font-bold text-blue-900 mb-0.5">Official India Post Identity Verification</p>
+            <p class="text-blue-800 text-[11px]">
+              If you are facing login issues or need new account provisioning, submit your departmental details. Your information will be sent to <strong>postalpro.in@gmail.com</strong> and you can send a pre-filled verification message directly via WhatsApp for instant clearance.
+            </p>
+          </div>
+        </div>
+
+        <form id="contactAdminForm" class="space-y-4">
+          <!-- Emp Name & Emp No Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label for="contactEmpName" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Employee Full Name <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="contactEmpName" 
+                placeholder="e.g. K. Vamsee Krishna" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+            <div>
+              <label for="contactEmpNo" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Employee No (Emp No) <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="contactEmpNo" 
+                placeholder="e.g. 8-digit Employee No / CSI ID" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Circle & Division Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label for="contactCircle" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Postal Circle <span class="text-red-500">*</span>
+              </label>
+              <select 
+                id="contactCircle" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition cursor-pointer" 
+                required
+              >
+                <option value="" disabled selected>Select Postal Circle</option>
+                <option value="Andhra Pradesh Circle">Andhra Pradesh Circle</option>
+                <option value="Assam Circle">Assam Circle</option>
+                <option value="Bihar Circle">Bihar Circle</option>
+                <option value="Chhattisgarh Circle">Chhattisgarh Circle</option>
+                <option value="Delhi Circle">Delhi Circle</option>
+                <option value="Gujarat Circle">Gujarat Circle</option>
+                <option value="Haryana Circle">Haryana Circle</option>
+                <option value="Himachal Pradesh Circle">Himachal Pradesh Circle</option>
+                <option value="Jammu & Kashmir Circle">Jammu & Kashmir Circle</option>
+                <option value="Jharkhand Circle">Jharkhand Circle</option>
+                <option value="Karnataka Circle">Karnataka Circle</option>
+                <option value="Kerala Circle">Kerala Circle</option>
+                <option value="Madhya Pradesh Circle">Madhya Pradesh Circle</option>
+                <option value="Maharashtra Circle">Maharashtra Circle</option>
+                <option value="North East Circle">North East Circle</option>
+                <option value="Odisha Circle">Odisha Circle</option>
+                <option value="Punjab Circle">Punjab Circle</option>
+                <option value="Rajasthan Circle">Rajasthan Circle</option>
+                <option value="Tamil Nadu Circle">Tamil Nadu Circle</option>
+                <option value="Telangana Circle">Telangana Circle</option>
+                <option value="Uttar Pradesh Circle">Uttar Pradesh Circle</option>
+                <option value="Uttarakhand Circle">Uttarakhand Circle</option>
+                <option value="West Bengal Circle">West Bengal Circle</option>
+                <option value="Army Postal Service (APS)">Army Postal Service (APS)</option>
+              </select>
+            </div>
+            <div>
+              <label for="contactDivision" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Postal Division <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="contactDivision" 
+                placeholder="e.g. Hyderabad City / Kurnool / Pune" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Mobile Number & Official Email Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label for="contactMobile" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                WhatsApp Number <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-3.5 flex items-center text-xs font-bold text-slate-400">+91</span>
+                <input 
+                  type="tel" 
+                  id="contactMobile" 
+                  maxlength="10" 
+                  pattern="\d{10}" 
+                  placeholder="9876543210" 
+                  class="w-full pl-12 pr-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label for="contactEmail" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Applicant Email Address <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="contactEmail" 
+                placeholder="e.g. employee@gmail.com" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition" 
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Recipient Dispatch Routing Info -->
+          <div class="bg-slate-100 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2 text-slate-600">
+              <i class="fa-solid fa-envelope text-blue-600"></i>
+              <span class="text-[11px]">Forwarding Destination:</span>
+            </div>
+            <span class="font-mono font-bold text-blue-800 text-xs bg-white px-2 py-0.5 rounded border border-slate-200">
+              postalpro.in@gmail.com
+            </span>
+          </div>
+
+          <!-- Form Action Buttons -->
+          <div class="flex items-center justify-end space-x-3 pt-2">
+            <button 
+              type="button" 
+              id="cancelContactAdminBtn" 
+              class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-bold transition cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              id="submitContactAdminBtn" 
+              class="touch-target px-5 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold shadow-md hover:shadow-lg transition flex items-center space-x-2 cursor-pointer"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Submit Verification Request</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- View B: Post-Submission Genuinity Verification Screen -->
+      <div id="contactAdminSuccessView" class="hidden p-4 sm:p-6 text-center space-y-4 overflow-y-auto no-scrollbar max-h-[85vh]">
+        <div class="w-14 h-14 rounded-full bg-emerald-100 border-4 border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
+          <i class="fa-solid fa-certificate text-xl"></i>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+              <i class="fa-solid fa-clock text-[10px]"></i>
+              <span>12-Hour SLA Review</span>
+            </span>
+            <span id="emailDeliveryBadge" class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+              <i class="fa-solid fa-check-double text-[10px]"></i>
+              <span>Request Acknowledged</span>
+            </span>
+          </div>
+
+          <!-- MANDATED GENUINITY VERIFICATION NOTICE WITH AUTO-REPLY ACKNOWLEDGMENT -->
+          <h3 class="text-base font-extrabold text-slate-900 leading-snug px-2">
+            Thank you for contacting PostalPro SchemeShare Support!
+          </h3>
+          <p class="text-xs text-slate-700 font-semibold mt-1.5 max-w-md mx-auto">
+            Your verification request will be processed <span class="text-blue-700 font-bold underline decoration-blue-300">within 12 hours</span> after departmental credentials verification.
+          </p>
+        </div>
+
+        <!-- Action Step Banner: ID Card / Charge Report Requirement -->
+        <div class="bg-amber-50 border-2 border-amber-300 rounded-xl p-3 text-left space-y-1.5 max-w-md mx-auto">
+          <div class="flex items-center space-x-2 text-amber-900 font-extrabold text-xs">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+            <span>Action Required to Complete Verification:</span>
+          </div>
+          <p class="text-xs text-amber-900 leading-relaxed font-medium">
+            Please share a clear photo or copy of your <strong>Departmental ID Card</strong> OR <strong>Charge Report / BPM Pay Slip</strong> via WhatsApp or Email below.
+          </p>
+        </div>
+
+        <!-- Verification Receipt Dossier Card -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-left space-y-2 max-w-md mx-auto text-xs">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-200">
+            <span class="text-slate-500 font-semibold">Verification Ref:</span>
+            <span id="verifyRefNo" class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 text-[11px]">
+              REF-INPOST-000000
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 text-[11px]">
+            <div>
+              <span class="text-slate-400 block font-medium">Employee Name</span>
+              <span id="verifySuccessName" class="font-bold text-slate-800">-</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block font-medium">Employee No</span>
+              <span id="verifySuccessEmpNo" class="font-bold text-slate-800">-</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block font-medium">Circle</span>
+              <span id="verifySuccessCircle" class="font-bold text-slate-800 truncate block">-</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block font-medium">Division</span>
+              <span id="verifySuccessDivision" class="font-bold text-slate-800 truncate block">-</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block font-medium">WhatsApp Number</span>
+              <span id="verifySuccessMobile" class="font-bold text-emerald-700">-</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block font-medium">Applicant Email</span>
+              <span id="verifySuccessEmail" class="font-bold text-blue-700 truncate block">-</span>
+            </div>
+          </div>
+
+          <div class="pt-1.5 border-t border-slate-200 flex items-center justify-between text-[11px]">
+            <span class="text-slate-500 font-medium">Official Admin Mailbox:</span>
+            <span class="font-bold text-blue-800">postalpro.in@gmail.com</span>
+          </div>
+        </div>
+
+        <!-- Direct Dispatch Options -->
+        <div class="space-y-2 max-w-md mx-auto pt-1">
+          <p class="text-[11px] text-slate-500 font-medium">
+            To expedite account clearance, you can also send this copy directly to Admin:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <!-- 1-Click Gmail Web Link -->
+            <a 
+              id="openGmailWebLink" 
+              href="#" 
+              target="_blank" 
+              class="touch-target py-2.5 px-3 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer"
+            >
+              <i class="fa-brands fa-google text-sm"></i>
+              <span>Open in Gmail</span>
+            </a>
+
+            <!-- WhatsApp Direct Dispatch -->
+            <a 
+              id="openWhatsAppAdminLink" 
+              href="#" 
+              target="_blank" 
+              class="touch-target py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer"
+            >
+              <i class="fa-brands fa-whatsapp text-base"></i>
+              <span>Send via WhatsApp</span>
+            </a>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
+            <a 
+              id="openDirectAdminEmailLink" 
+              href="mailto:postalpro.in@gmail.com" 
+              target="_blank" 
+              class="w-full sm:flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold transition flex items-center justify-center space-x-1.5"
+            >
+              <i class="fa-solid fa-envelope text-xs"></i>
+              <span>Default Mail App</span>
+            </a>
+            <button 
+              type="button" 
+              id="finishContactAdminBtn" 
+              class="w-full sm:flex-1 py-2 px-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold transition shadow-xs cursor-pointer"
+            >
+              Back to Login Portal
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ONBOARDING MODAL (MANDATORY FIRST-TIME PROFILE SETUP & DPDP CONSENT) -->
+  <div id="onboardingModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/85 backdrop-blur-xs p-2 sm:p-4 modal-backdrop-anim">
+    <div class="min-h-full flex items-start sm:items-center justify-center py-3 sm:py-6">
+      <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto modal-card-anim">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 sm:p-5 text-white flex items-center justify-between border-b border-blue-800/60 shadow-xs">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-amber-400 font-bold shrink-0 shadow-2xs border border-white/15">
+              <i class="fa-solid fa-user-check text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base sm:text-lg leading-tight">First-Time Profile Setup</h3>
+              <p class="text-xs text-blue-200/90 font-mono mt-0.5" id="onboardingEmpIdPreview">ID: ********</p>
+            </div>
+          </div>
+          <span class="text-[10px] bg-blue-950/80 border border-blue-400/40 text-blue-100 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider shrink-0 shadow-2xs">
+            1-Time Local Setup
+          </span>
+        </div>
+
+        <form id="onboardingForm" class="p-4 sm:p-6 space-y-3.5 sm:space-y-4">
+          <div>
+            <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              Employee Full Name <span class="text-red-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="onboardName" 
+              placeholder="e.g. K. VAMSEE KRISHNA" 
+              class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs" 
+              required
+            >
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Postal Division <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="onboardDivision" 
+                placeholder="e.g. KURNOOL DIVISION" 
+                class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs" 
+                required
+              >
+            </div>
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Designation <span class="text-red-500">*</span>
+              </label>
+              <select 
+                id="onboardDesignation" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs cursor-pointer" 
+                required
+              >
+                <option value="BPM">BPM (Branch Postmaster)</option>
+                <option value="ABPM">ABPM (Asst. Branch Postmaster)</option>
+                <option value="Dak Sevak">Gramin Dak Sevak</option>
+                <option value="Postman">Postman / Delivery Agent</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Working Office Name <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="onboardOfficeName" 
+                placeholder="e.g. RAMPACHODAVARAM" 
+                class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs" 
+                required
+              >
+            </div>
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Office Type <span class="text-red-500">*</span>
+              </label>
+              <select 
+                id="onboardOfficeType" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs cursor-pointer" 
+                required
+              >
+                <option value="BO">Branch Office (BO)</option>
+                <option value="SO">Sub Office (SO)</option>
+                <option value="HO">Head Office (HO)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Pincode (6-Digits) <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="onboardPincode" 
+                maxlength="6" 
+                pattern="\d{6}" 
+                placeholder="533288" 
+                class="w-full font-mono font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs" 
+                required
+              >
+            </div>
+            <div>
+              <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Contact Mobile (10-Digits) <span class="text-red-500">*</span>
+              </label>
+              <input 
+                type="tel" 
+                id="onboardMobile" 
+                maxlength="10" 
+                pattern="\d{10}" 
+                placeholder="9876543210" 
+                class="w-full font-mono font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none transition shadow-2xs" 
+                required
+              >
+            </div>
+          </div>
+
+          <!-- DPDP Disclaimer Box -->
+          <div class="bg-amber-50/90 border border-amber-200/90 rounded-xl p-3.5 text-xs text-amber-900 leading-relaxed shadow-2xs">
+            <p class="font-bold text-amber-950 mb-1 flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-scale-balanced text-amber-700"></i>
+              <span>DPDP & Departmental Compliance Guarantee</span>
+            </p>
+            <p class="text-[11px] text-amber-900/90 leading-normal">
+              "Zero Cloud Retention: All recipient records remain strictly encrypted on your local device. The developer and platform retain zero customer data. By proceeding, you agree to handle delivery details in accordance with official departmental conduct."
+            </p>
+          </div>
+
+          <div class="flex items-start space-x-2.5 pt-0.5">
+            <input 
+              type="checkbox" 
+              id="onboardDisclaimerCheck" 
+              checked 
+              class="mt-0.5 h-4 w-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer shrink-0" 
+              required
+            >
+            <label for="onboardDisclaimerCheck" class="text-[11px] sm:text-xs text-slate-600 leading-snug select-none cursor-pointer">
+              I confirm that recipient contact information will be used solely for authorized India Post scheme delivery outreach.
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full touch-target bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all mt-2 text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <i class="fa-solid fa-circle-check text-sm"></i>
+            <span>Save Profile & Initialize Sandbox</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="mainAppContainer" class="hidden flex-1 flex flex-col min-h-screen">
+    
+    <!-- TOP APPLICATION HEADER -->
+    <header class="sticky top-0 z-40 bg-slate-900 text-white border-b border-slate-800 shadow-md">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm font-black text-lg">
+            <i class="fa-solid fa-envelopes-bulk text-amber-300 text-sm"></i>
+          </div>
+          <div>
+            <h1 class="text-base font-extrabold tracking-tight flex items-center space-x-1.5 leading-none">
+              <span>SchemeShare</span>
+              <span class="text-[10px] font-bold text-amber-400 bg-amber-950/80 border border-amber-500/30 px-1.5 py-0.5 rounded-sm">POSTALPRO</span>
+            </h1>
+            <p class="text-[11px] text-slate-400 font-medium mt-0.5 truncate max-w-[200px] sm:max-w-xs user-display-desig">
+              BPM - Loading...
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <!-- Desktop Nav Pills (High contrast, clearly visible in all lighting) -->
+          <nav id="desktopNav" class="hidden md:flex items-center space-x-1.5 bg-slate-950/90 p-1.5 rounded-xl border border-slate-700/80 text-xs shadow-inner">
+            <button data-view-btn="dashboard" class="desktop-nav-btn px-3.5 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800/80 transition-all font-semibold flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-gauge-high text-sm"></i>
+              <span>Dashboard</span>
+            </button>
+            <button data-view-btn="send" class="desktop-nav-btn px-3.5 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800/80 transition-all font-semibold flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-paper-plane text-sm"></i>
+              <span>Send Message</span>
+            </button>
+            <button data-view-btn="leads" class="desktop-nav-btn px-3.5 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800/80 transition-all font-semibold flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-address-book text-sm"></i>
+              <span>Leads</span>
+            </button>
+            <button data-view-btn="profile" class="desktop-nav-btn px-3.5 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800/80 transition-all font-semibold flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-user-shield text-sm"></i>
+              <span>Profile & Security</span>
+            </button>
+          </nav>
+
+          <!-- Lock / Exit Session -->
+          <button id="lockSessionBtn" class="touch-target px-3 py-2 text-slate-200 hover:text-amber-300 hover:bg-slate-800 rounded-xl transition-colors bg-slate-800/90 border border-slate-700 flex items-center space-x-1.5 shadow-xs cursor-pointer" title="Lock & Encrypt Session">
+            <i class="fa-solid fa-lock text-sm text-amber-400"></i>
+            <span class="text-xs font-bold text-slate-200 hidden lg:inline">Lock</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT PANELS CONTAINER -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 pb-24 sm:pb-8">
+
+      <!-- ============================================== -->
+      <!-- VIEW 1: DASHBOARD -->
+      <!-- ============================================== -->
+      <section id="view-dashboard" class="app-view-panel space-y-5">
+        
+        <!-- Demo Mode Notice Banner (Visible when unverified) -->
+        <div id="dashboardDemoBanner" class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-start space-x-3.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center font-black text-lg shrink-0 border border-amber-300/60">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-black uppercase tracking-wider text-amber-950">Interactive Sample Workflow Active</span>
+                <span class="text-[10px] font-extrabold bg-amber-200/90 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full">Demo Mode</span>
+                <span class="text-[10px] font-bold text-slate-600 bg-white/80 px-2 py-0.5 rounded-md border border-slate-200">5 Sample Leads Loaded</span>
+              </div>
+              <p class="text-xs text-amber-900 mt-1 leading-relaxed max-w-2xl">
+                Explore pre-populated postal leads, conversion rate metrics, and WhatsApp pitch templates. To unlock live customer dispatching, enter your verification clearance code.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0 self-end sm:self-center">
+            <button data-view-btn="profile" class="touch-target px-3.5 py-2 rounded-xl bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold transition-all shadow-xs flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-key text-xs"></i>
+              <span>Enter Clearance Code</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Welcome & Storage Card -->
+        <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white rounded-2xl p-5 shadow-sm border border-slate-800 relative overflow-hidden">
+          <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-blue-300 font-bold">Secure Local Sandbox Active</span>
+              <h2 class="text-xl font-extrabold mt-0.5">Welcome back, <span class="user-display-name text-amber-300">Officer</span></h2>
+              <p class="text-xs text-slate-300 mt-1">Zero Cloud Retention • DPDP Compliant Local Ledger</p>
+            </div>
+            <button data-view-btn="send" class="touch-target self-start sm:self-auto bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center space-x-2">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Scan & Pitch</span>
+            </button>
+          </div>
+
+          <!-- Mini storage usage bar -->
+          <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-300">
+            <span class="flex items-center">
+              <i class="fa-solid fa-database text-blue-400 mr-1.5"></i>
+              <span id="metricStorageUsed">0.00 KB Used (0.1% safe quota)</span>
+            </span>
+            <div class="w-32 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+              <div id="storageQuotaMeter" class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 5%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP METRIC CARDS -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Total Outreach</span>
+              <i class="fa-solid fa-paper-plane text-blue-600 text-sm"></i>
+            </div>
+            <div class="text-2xl font-black text-slate-900" id="metricTotalLeads">0</div>
+            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Generated leads</p>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Won Leads</span>
+              <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+            </div>
+            <div class="text-2xl font-black text-emerald-700" id="metricWonLeads">0</div>
+            <p class="text-[11px] text-emerald-600 font-medium mt-0.5">Direct conversions</p>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Focus Leads</span>
+              <i class="fa-solid fa-bullseye text-amber-600 text-sm"></i>
+            </div>
+            <div class="text-2xl font-black text-amber-700" id="metricFocusLeads">0</div>
+            <p class="text-[11px] text-amber-600 font-medium mt-0.5">Active follow-ups</p>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Conversion Rate</span>
+              <i class="fa-solid fa-chart-line text-indigo-600 text-sm"></i>
+            </div>
+            <div class="text-2xl font-black text-indigo-900" id="metricConversionRate">0%</div>
+            <p class="text-[11px] text-slate-500 font-medium mt-0.5">Success efficiency</p>
+          </div>
+        </div>
+
+        <!-- PERFORMANCE ANALYTICS CHART -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Outreach & Conversion Performance</h3>
+              <p class="text-xs text-slate-500">Monthly breakdown of WhatsApp pitches vs won conversions</p>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-lg border border-slate-200">
+              <i class="fa-solid fa-chart-simple text-blue-600 mr-1"></i> Chart.js
+            </span>
+          </div>
+          <div class="h-64 relative w-full">
+            <canvas id="performanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- RECENT OUTREACH LEADS -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-3 border-b border-slate-100 gap-2.5">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-sm font-bold shadow-2xs shrink-0">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <div>
+                <h3 class="text-xs sm:text-sm font-extrabold text-slate-900 uppercase tracking-wider leading-tight">Recent Doorstep Leads</h3>
+                <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Fast action on latest deliveries & outreach</p>
+              </div>
+            </div>
+
+            <!-- Card Style Choice & View All Controls -->
+            <div class="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+              <!-- Card Style Selector Switcher -->
+              <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-2xs" role="group" aria-label="Select Card Style">
+                <button 
+                  type="button" 
+                  data-card-style-btn="classic" 
+                  class="touch-target px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-blue-600 text-white shadow-xs" 
+                  title="Postal Classic Card (Original 3-Row Layout)"
+                >
+                  <i class="fa-solid fa-table-cells-large text-[11px]"></i>
+                  <span class="text-[11px]">Classic</span>
+                </button>
+                <button 
+                  type="button" 
+                  data-card-style-btn="modern" 
+                  class="touch-target px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200" 
+                  title="Modern Card with Action Banner"
+                >
+                  <i class="fa-solid fa-id-card text-[11px]"></i>
+                  <span class="text-[11px]">Modern</span>
+                </button>
+                <button 
+                  type="button" 
+                  data-card-style-btn="compact" 
+                  class="touch-target px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200" 
+                  title="Compact High-Density View"
+                >
+                  <i class="fa-solid fa-list text-[11px]"></i>
+                  <span class="text-[11px]">Compact</span>
+                </button>
+              </div>
+
+              <button data-view-btn="leads" class="touch-target text-xs font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+                <span>View All</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="recentLeadsList" class="space-y-3">
+            <!-- Dynamic recent leads injected here -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 2: SEND MESSAGE (PITCH COPYWRITER) -->
+      <!-- ============================================== -->
+      <section id="view-send" class="app-view-panel hidden space-y-5">
+        
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+            <div>
+              <h2 class="text-lg font-extrabold text-slate-900">Dispatch Verified Scheme Pitch</h2>
+              <p class="text-xs text-slate-500">Generate sovereign-backed, bilingual WhatsApp copy for the delivered article.</p>
+            </div>
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">
+              <i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> Direct wa.me
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT COLUMN: FORM INPUTS -->
+            <div class="lg:col-span-7 space-y-4">
+              
+              <!-- Article Number with QR Scan button -->
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Article Number (Postal Barcode) *
+                </label>
+                <div class="flex items-center space-x-2">
+                  <div class="relative flex-1">
+                    <input type="text" id="sendArticle" uppercase placeholder="e.g. EM123456789IN" class="w-full uppercase font-mono font-bold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                      <i class="fa-solid fa-barcode text-slate-400"></i>
+                    </div>
+                  </div>
+                  <button type="button" id="startScanBtn" class="touch-target bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 font-bold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-1.5 transition-colors shrink-0">
+                    <i class="fa-solid fa-camera text-sm"></i>
+                    <span>Scan</span>
+                  </button>
+                </div>
+                <p id="articleValidationMsg" class="hidden text-xs text-red-600 font-medium mt-1"></p>
+                <p class="text-[11px] text-slate-400 mt-1">13 chars ending in 'IN' for domestic articles, or foreign code (e.g. US, GB, DE).</p>
+              </div>
+
+              <!-- Customer Names -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Addressee Name *</label>
+                  <input type="text" id="sendAddressee" placeholder="e.g. Ramesh Reddy" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Secondary / C/o (Optional)</label>
+                  <input type="text" id="sendSecondary" placeholder="e.g. Venkata Rao" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+                </div>
+              </div>
+
+              <!-- Mobile & Language -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Recipient Mobile *</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center text-xs font-bold text-slate-400">+91</span>
+                    <input type="tel" id="sendMobile" maxlength="10" placeholder="9876543210" class="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pitch Language *</label>
+                  <select id="sendLanguage" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+                    <option value="te" selected>Telugu (తెలుగు + English)</option>
+                    <option value="hi">Hindi (हिन्दी + English)</option>
+                    <option value="en">English Only</option>
+                    <option value="ta">Tamil (தமிழ் + English)</option>
+                    <option value="kn">Kannada (ಕನ್ನಡ + English)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Multi-Scheme Selector -->
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">
+                  Select Schemes to Pitch (Multi-Select) *
+                </label>
+                <div id="schemeCheckboxesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <!-- Injected dynamically from SCHEMES -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE WHATSAPP MESSAGE PREVIEW -->
+            <div class="lg:col-span-5 flex flex-col">
+              <div class="bg-white rounded-2xl shadow-sm flex-1 flex flex-col border border-slate-300 overflow-hidden">
+                
+                <!-- WhatsApp Official Top Bar -->
+                <div class="bg-[#075E54] text-white px-4 py-3 flex items-center justify-between shadow-xs">
+                  <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-full bg-emerald-600 border border-white/30 flex items-center justify-center font-bold text-xs text-white">
+                      <i class="fa-brands fa-whatsapp text-lg"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+                        <span>WhatsApp Pitch Preview</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      </h4>
+                      <p class="text-[11px] text-emerald-100 font-medium" id="previewRecipientHint">Universal Text • No Emojis</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Preview Controls (Font Size & Sunlight Mode) -->
+                  <div class="flex items-center space-x-1.5">
+                    <button type="button" id="toggleSunlightModeBtn" class="px-2 py-1 bg-emerald-900/60 hover:bg-emerald-900 text-emerald-100 rounded text-xs font-bold transition-colors" title="Toggle Sunlight / High Contrast Mode">
+                      <i class="fa-solid fa-sun mr-1 text-amber-300"></i><span class="text-[11px]">Sunlight</span>
+                    </button>
+                    <div class="flex items-center bg-emerald-900/60 rounded p-0.5">
+                      <button type="button" id="decreaseFontSizeBtn" class="px-2 py-0.5 text-xs font-bold hover:bg-emerald-800 rounded text-white" title="Decrease font size">A-</button>
+                      <button type="button" id="increaseFontSizeBtn" class="px-2 py-0.5 text-xs font-bold hover:bg-emerald-800 rounded text-white" title="Increase font size">A+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chat Canvas with high contrast & crisp visibility -->
+                <div class="flex-1 bg-slate-100 p-4 overflow-y-auto max-h-[440px] flex flex-col justify-start" id="previewCanvasContainer">
+                  
+                  <!-- Message Bubble -->
+                  <div class="bg-white rounded-2xl rounded-tl-xs p-4 shadow-sm border border-slate-200 text-slate-950 font-sans text-sm leading-relaxed whitespace-pre-wrap selection:bg-emerald-200" id="livePitchPreviewText">
+                    <!-- Live formatted message rendered here -->
+                  </div>
+
+                  <!-- Delivery Guarantee Pill -->
+                  <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500 px-1">
+                    <span class="flex items-center text-emerald-700 font-semibold">
+                      <i class="fa-solid fa-circle-check text-xs mr-1 text-emerald-600"></i>
+                      Universal Glyphs (Supported on all phones)
+                    </span>
+                    <span id="pitchCharCount" class="font-mono font-bold text-slate-600">0 chars</span>
+                  </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center space-x-2.5">
+                  <button type="button" id="copyMessageBtn" class="touch-target px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition-colors flex items-center justify-center shrink-0 shadow-xs">
+                    <i class="fa-solid fa-copy mr-1.5 text-sm"></i>
+                    <span>Copy Text</span>
+                  </button>
+                  <button type="button" id="dispatchWhatsAppBtn" class="flex-1 touch-target bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Open in WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 3: LEADS LEDGER -->
+      <!-- ============================================== -->
+      <section id="view-leads" class="app-view-panel hidden space-y-4">
+        
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900">Encrypted Leads Ledger</h2>
+            <p class="text-xs text-slate-500">Sandboxed on device • No remote tracking</p>
+          </div>
+          
+          <!-- Search input -->
+          <div class="relative w-full sm:w-72">
+            <input type="text" id="leadsSearchInput" placeholder="Search customer, article, scheme..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          </div>
+        </div>
+
+        <!-- Folder Tabs & Style Controls -->
+        <div class="flex flex-wrap items-center justify-between bg-slate-200/80 p-1.5 rounded-xl gap-2">
+          <div class="flex space-x-1">
+            <button id="tabFocusLeadsBtn" class="touch-target px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 bg-white text-amber-700 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-bullseye"></i>
+              <span>Focus Folder (Active Follow-ups)</span>
+            </button>
+            <button id="tabWonLeadsBtn" class="touch-target px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-slate-600 cursor-pointer">
+              <i class="fa-solid fa-trophy text-emerald-600"></i>
+              <span>Success Folder (Won Leads)</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2 ml-auto">
+            <!-- Card Style Switcher -->
+            <div class="flex items-center gap-1 bg-white p-1 rounded-lg border border-slate-300/80 shadow-2xs">
+              <button 
+                type="button" 
+                data-card-style-btn="classic" 
+                class="touch-target px-2.5 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-blue-600 text-white shadow-xs" 
+                title="Postal Classic Card (Original 3-Row Layout)"
+              >
+                <i class="fa-solid fa-table-cells-large text-[11px]"></i>
+                <span class="text-[11px] hidden sm:inline">Classic</span>
+              </button>
+              <button 
+                type="button" 
+                data-card-style-btn="modern" 
+                class="touch-target px-2.5 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200" 
+                title="Modern Card with Action Banner"
+              >
+                <i class="fa-solid fa-id-card text-[11px]"></i>
+                <span class="text-[11px] hidden sm:inline">Modern</span>
+              </button>
+              <button 
+                type="button" 
+                data-card-style-btn="compact" 
+                class="touch-target px-2.5 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200" 
+                title="Compact High-Density View"
+              >
+                <i class="fa-solid fa-list text-[11px]"></i>
+                <span class="text-[11px] hidden sm:inline">Compact</span>
+              </button>
+            </div>
+
+            <span id="ledgerCountBadge" class="hidden sm:inline-block text-xs font-bold px-3 py-1.5 bg-white rounded-lg text-slate-700 shadow-2xs border border-slate-200">0 Leads</span>
+          </div>
+        </div>
+
+        <!-- Leads List -->
+        <div id="leadsLedgerList" class="space-y-2">
+          <!-- Lead cards rendered here -->
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 4: PROFILE, BACKUP & CRYPTOGRAPHIC MIGRATION -->
+      <!-- ============================================== -->
+      <section id="view-profile" class="app-view-panel hidden space-y-5">
+        
+        <!-- IDENTITY VERIFICATION STATUS CARD -->
+        <div id="identityStatusCard" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+          <!-- Dynamic Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
+            <div class="flex items-start sm:items-center gap-3">
+              <div id="identityStatusIcon" class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-lg shrink-0 mt-0.5 sm:mt-0 shadow-2xs">
+                <i class="fa-solid fa-user-clock"></i>
+              </div>
+              <div class="space-y-0.5">
+                <h3 class="text-base font-extrabold text-slate-900 leading-snug">Identity Status & Verification</h3>
+                <p id="identityStatusSubtext" class="text-xs text-slate-500 leading-normal">
+                  12-Hour SLA Verification Review • Demo Mode Active
+                </p>
+              </div>
+            </div>
+            <div class="flex sm:justify-end shrink-0 pl-13 sm:pl-0">
+              <span id="identityStatusBadge" class="w-fit inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide bg-amber-100 text-amber-900 border border-amber-300 whitespace-nowrap shadow-2xs">
+                🟡 Pending Clearance
+              </span>
+            </div>
+          </div>
+
+          <!-- PENDING STATE CONTENT (When unverified) -->
+          <div id="identityPendingBox" class="space-y-3.5">
+            <div class="p-4 bg-amber-50/80 rounded-xl border border-amber-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                  <i class="fa-solid fa-shield-halved text-amber-700"></i>
+                  Account Under 12-Hour SLA Review
+                </span>
+                <span class="text-[11px] font-bold text-amber-800 bg-amber-200/80 px-2 py-0.5 rounded-md" id="verificationRefBadge">
+                  Ref: PENDING
+                </span>
+              </div>
+              <p class="text-xs text-amber-900 leading-relaxed">
+                Your account is currently running in <strong>Interactive Demo Mode</strong> with sample postal leads and preview templates. Once your Department ID Card or Charge Report is verified by the Admin, you will receive your personal Clearance Code.
+              </p>
+            </div>
+
+            <!-- Clearance Code Input Form -->
+            <form id="clearanceCodeForm" class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <label class="block text-xs font-bold text-slate-800 uppercase">Enter Verification Clearance Code</label>
+                  <p class="text-[11px] text-slate-500">Received via WhatsApp or Email from PostalPro Admin</p>
+                </div>
+                <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">Format: PS-XXXX-XXXX-XXXX</span>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <div class="relative flex-1">
+                  <span class="absolute inset-y-0 left-3.5 flex items-center text-slate-400">
+                    <i class="fa-solid fa-key text-xs"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="clearanceCodeInput" 
+                    placeholder="e.g. PS-1234-ABCD-5678" 
+                    class="w-full uppercase font-mono font-bold pl-9 pr-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    required
+                  >
+                </div>
+                <button 
+                  type="submit" 
+                  id="applyClearanceCodeBtn" 
+                  class="touch-target px-5 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 shrink-0 cursor-pointer"
+                >
+                  <i class="fa-solid fa-unlock text-xs"></i>
+                  <span>Unlock Full App</span>
+                </button>
+              </div>
+
+              <!-- Fast WhatsApp ID submission button -->
+              <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <a 
+                  id="profileViewWhatsAppProofLink"
+                  href="https://wa.me/916309833253?text=Hello%20PostalPro%20Admin,%20I%20have%20submitted%20my%20SchemeShare%20Verification%20Form.%20Please%20find%20attached%20my%20ID%20card%20/%20charge%20report." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-emerald-700 hover:text-emerald-900 font-bold inline-flex items-center gap-1.5"
+                >
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>Send ID Card / Charge Report on WhatsApp</span>
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <!-- VERIFIED STATE CONTENT (When verified) -->
+          <div id="identityVerifiedBox" class="hidden space-y-3.5">
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shrink-0">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-extrabold text-emerald-950">Departmental Identity Verified</h4>
+                  <p class="text-xs text-emerald-800 mt-0.5">
+                    Full WhatsApp direct dispatching & local encrypted ledger capabilities active.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2 shrink-0 self-end sm:self-center">
+                <button 
+                  type="button" 
+                  id="resetToDemoBtn" 
+                  class="text-xs font-bold text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100 transition cursor-pointer"
+                  title="Switch back to Demo mode for training"
+                >
+                  <i class="fa-solid fa-rotate-left mr-1"></i> Switch to Demo Mode
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verification Process Help Accordion -->
+          <details class="group bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
+            <summary class="flex items-center justify-between p-3 cursor-pointer text-xs font-bold text-slate-700 uppercase select-none group-open:bg-slate-100">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-question text-blue-600"></i>
+                How the Verification & Clearance Process Works
+              </span>
+              <i class="fa-solid fa-chevron-down text-slate-400 transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="p-4 space-y-2 text-xs text-slate-600 leading-relaxed border-t border-slate-200 bg-white">
+              <div class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0 text-[11px]">1</span>
+                <p><strong>Submit Form:</strong> Enter your Employee ID, Mobile, and Email during the 1-time verification request.</p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0 text-[11px]">2</span>
+                <p><strong>Share Proof on WhatsApp:</strong> Send a photo of your Departmental ID Card, Charge Report, or Pay Slip to the Admin.</p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0 text-[11px]">3</span>
+                <p><strong>Receive 4-Digit Code:</strong> The Admin validates your credentials within the 12-hour SLA and replies with your Clearance Code (e.g. <code>POST-8821</code>).</p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0 text-[11px]">4</span>
+                <p><strong>Instant Unlock:</strong> Enter the code above to immediately unlock direct WhatsApp dispatching for your daily parcel & registered deliveries.</p>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Profile details editor -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div>
+              <h2 class="text-base font-extrabold text-slate-900">Officer Profile & Verified Identity</h2>
+              <p class="text-xs text-slate-500">Sign-off details appended to outbound WhatsApp pitches</p>
+            </div>
+            <span class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200 user-display-empid">
+              ID: ********
+            </span>
+          </div>
+
+          <form id="editProfileForm" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
+                <input type="text" id="editFullName" class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Postal Division</label>
+                <input type="text" id="editDivision" class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" placeholder="e.g. KURNOOL DIVISION" required>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Designation</label>
+                <select id="editDesignation" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+                  <option value="BPM">BPM (Branch Postmaster)</option>
+                  <option value="ABPM">ABPM (Asst. Branch Postmaster)</option>
+                  <option value="Dak Sevak">Gramin Dak Sevak</option>
+                  <option value="Postman">Postman / Delivery Agent</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Working Office Name</label>
+                <input type="text" id="editOfficeName" class="w-full uppercase font-semibold px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Office Type</label>
+                <select id="editOfficeType" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+                  <option value="BO">BO (Branch)</option>
+                  <option value="SO">SO (Sub-Office)</option>
+                  <option value="HO">HO (Head-Office)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pincode</label>
+                <input type="text" id="editPincode" maxlength="6" class="w-full font-mono px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Mobile</label>
+                <input type="tel" id="editMobile" maxlength="10" class="w-full font-mono px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none" required>
+              </div>
+            </div>
+
+            <!-- Leads Card Display Preference -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-4.5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-2xs">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800">
+                      Lead Card Display Layout
+                    </h4>
+                    <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      Choose your preferred layout for Recent Doorstep Leads and Leads Ledger cards.
+                    </p>
+                  </div>
+                </div>
+                <div class="w-full sm:w-auto shrink-0 pl-12 sm:pl-0">
+                  <select id="settingsCardStyleSelect" class="w-full sm:w-auto text-xs font-bold px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-2xs cursor-pointer">
+                    <option value="classic">Classic Postal (Original 3-Row Layout)</option>
+                    <option value="modern">Modern (Action Banner)</option>
+                    <option value="compact">Compact (High-Density List)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- DPDP Auto-Purge Configuration -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-4.5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-2xs">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800">
+                      DPDP Automated Retention Purge
+                    </h4>
+                    <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      Automatically delete customer PII logs older than policy limit.
+                    </p>
+                  </div>
+                </div>
+                <div class="w-full sm:w-auto shrink-0 pl-12 sm:pl-0">
+                  <select id="autoPurgeSelect" class="w-full sm:w-auto text-xs font-bold px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-2xs cursor-pointer">
+                    <option value="0">Disabled (Keep Forever)</option>
+                    <option value="30">Purge after 30 Days</option>
+                    <option value="60" selected>Purge after 60 Days</option>
+                    <option value="90">Purge after 90 Days</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="touch-target bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 px-5 rounded-xl text-xs shadow-xs transition-all">
+              Save Profile Changes
+            </button>
+          </form>
+        </div>
+
+        <!-- Encrypted Backup, Migration & Wipe Engine -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">Cryptographic Backup & Data Portability</h3>
+          <p class="text-xs text-slate-500 mb-4">Export or import your encrypted offline ledger when migrating devices.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <!-- Export Card -->
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between">
+              <div>
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm mb-2">
+                  <i class="fa-solid fa-file-export"></i>
+                </div>
+                <h4 class="text-xs font-bold text-slate-800 uppercase">Encrypted JSON Export</h4>
+                <p class="text-[11px] text-slate-500 mt-1">Download timestamped JSON backup with cryptographic checksum.</p>
+              </div>
+              <button id="exportBackupBtn" class="mt-4 touch-target bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2 px-3 rounded-lg transition-colors flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-download text-xs"></i>
+                <span>Export Ledger JSON</span>
+              </button>
+            </div>
+
+            <!-- Restore Card -->
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between">
+              <div>
+                <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-2">
+                  <i class="fa-solid fa-file-import"></i>
+                </div>
+                <h4 class="text-xs font-bold text-slate-800 uppercase">Safe JSON Restore</h4>
+                <p class="text-[11px] text-slate-500 mt-1">Upload backup file. Automatically merges unique leads with schema verification.</p>
+              </div>
+              <label class="mt-4 touch-target bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2 px-3 rounded-lg transition-colors flex items-center justify-center space-x-1.5 cursor-pointer text-center">
+                <i class="fa-solid fa-upload text-xs"></i>
+                <span>Choose Backup File</span>
+                <input type="file" id="restoreFileInput" accept=".json,application/json" class="hidden">
+              </label>
+            </div>
+
+          </div>
+
+          <!-- DANGER ZONE: HARD RESET / WIPE -->
+          <div class="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-red-50/50 p-4 rounded-xl border border-red-100">
+            <div>
+              <h4 class="text-xs font-bold uppercase text-red-900 flex items-center">
+                <i class="fa-solid fa-triangle-exclamation text-red-600 mr-1.5"></i>
+                Zero-Trace Device Reset
+              </h4>
+              <p class="text-xs text-red-700 mt-0.5">Completely wipe all local sandboxed records from this browser.</p>
+            </div>
+            <button id="hardWipeBtn" class="touch-target bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors shrink-0">
+              <i class="fa-solid fa-trash-can mr-1"></i> Hard Wipe Storage
+            </button>
+          </div>
+        </div>
+
+        <!-- POSTAL EMPLOYEE DIGITAL SECURITY & ATTACHMENT AWARENESS -->
+        <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-slate-800 space-y-4">
+          <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-base shrink-0 border border-amber-400/30">
+              <i class="fa-solid fa-shield-cat"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>Postal Digital Security & Safe Attachment Handling</span>
+                <span class="text-[9px] uppercase tracking-wider font-bold bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full">Essential Rules</span>
+              </h3>
+              <p class="text-xs text-slate-300">Simple, non-technical safety guidelines for Branch Postmasters & field postal staff</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+            <!-- Tip 1: APK & Unknown Executables -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 space-y-1.5">
+              <div class="flex items-center space-x-2 text-rose-400 text-xs font-bold">
+                <i class="fa-solid fa-ban"></i>
+                <h4>Never Open .APK, .EXE, or Unknown Installers</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Fraudulent actors frequently disguise malware as "Department Updates" or "Postal Incentive Apps". India Post or PostalPro will <strong>never</strong> send you <code>.apk</code> files on WhatsApp.
+              </p>
+            </div>
+
+            <!-- Tip 2: Inspecting Email & WhatsApp Attachments -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 space-y-1.5">
+              <div class="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                <i class="fa-solid fa-envelope-circle-check"></i>
+                <h4>Verify Attachment Senders First</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Before clicking any PDF, invoice, or image received via email or WhatsApp, check the sender's full email or phone number. When in doubt, confirm through a direct phone call.
+              </p>
+            </div>
+
+            <!-- Tip 3: Confidentiality & OTP Protection -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 space-y-1.5">
+              <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold">
+                <i class="fa-solid fa-key"></i>
+                <h4>Never Disclose OTPs or CSI/SAP Passwords</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                No departmental officer, inspector, or admin will ever ask for your portal login passwords, Darpan MPIN, or phone OTPs. Keep them strictly confidential.
+              </p>
+            </div>
+
+            <!-- Tip 4: Official Email Identification -->
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 space-y-1.5">
+              <div class="flex items-center space-x-2 text-blue-300 text-xs font-bold">
+                <i class="fa-solid fa-certificate"></i>
+                <h4>Official Postal Communication Channels</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Official SchemeShare administrator communications originate exclusively from <strong>postalpro.in@gmail.com</strong> or verified WhatsApp group contacts. Report any suspicious links.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- POSTALPRO FOOTER SECTION -->
+    <footer 
+      id="postalpro-footer" 
+      class="border-t bg-slate-950 border-slate-800 text-slate-100 transition-colors mt-auto pb-20 md:pb-10"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
+        <!-- Main Footer Top Grid (Responsive: 1 col on mobile, 2 cols on tablet, 12-col grid on desktop) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start">
+          
+          <!-- Brand & Story Column -->
+          <div class="sm:col-span-2 lg:col-span-4 space-y-4">
+            <!-- PostalProLogo -->
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md font-black text-xl">
+                <i class="fa-solid fa-envelopes-bulk text-amber-300 text-base"></i>
+              </div>
+              <div>
+                <div class="text-base font-extrabold tracking-tight flex items-center space-x-1.5 leading-none text-white">
+                  <span>PostalPro</span>
+                  <span class="text-[10px] font-bold text-amber-400 bg-amber-950/90 border border-amber-500/40 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">India</span>
+                </div>
+                <p class="text-[11px] text-slate-400 font-medium mt-1">
+                  Independent Postal Utility & Productivity Platform
+                </p>
+              </div>
+            </div>
+
+            <p class="text-xs leading-relaxed max-w-md text-slate-400">
+              Built for India Post Branch Postmasters, Postal Assistants, and GDS. Empowering daily branch operations with modern, secure, offline-first digital tools.
+            </p>
+
+            <div class="pt-1 text-xs font-medium flex flex-wrap items-center gap-1.5 text-slate-400">
+              <span>Crafted with passion for</span>
+              <span class="inline-flex items-center gap-1 font-semibold text-amber-400">
+                <svg class="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline shrink-0" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                </svg>
+                India Post
+              </span>
+            </div>
+          </div>
+
+          <!-- Core Navigation Links -->
+          <div class="sm:col-span-1 lg:col-span-3 space-y-3">
+            <h4 class="text-xs font-black uppercase tracking-wider text-white">
+              Postal Tools & Apps
+            </h4>
+            <ul class="space-y-2.5 text-xs font-medium">
+              <li>
+                <a 
+                  href="https://postalpro.in/tdbill/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="hover:text-amber-400 transition inline-flex items-center gap-1.5 text-slate-400"
+                >
+                  <span>TD Commission Bill Generator</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70"></i>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://postalpro.in/plileads/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="hover:text-amber-400 transition inline-flex items-center gap-1.5 text-slate-400"
+                >
+                  <span>PLI Leads Management Pro</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70"></i>
+                </a>
+              </li>
+              <li>
+                <button 
+                  type="button"
+                  data-footer-modal="tools"
+                  class="hover:text-amber-400 transition cursor-pointer text-left text-slate-400"
+                >
+                  Postal Utilities Suite
+                </button>
+              </li>
+              <li>
+                <button 
+                  type="button"
+                  data-footer-modal="marketing"
+                  class="hover:text-amber-400 transition cursor-pointer text-left text-slate-400"
+                >
+                  Grassroots Marketing Playbook
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Legal, Privacy & Transparency -->
+          <div class="sm:col-span-1 lg:col-span-2 space-y-3">
+            <h4 class="text-xs font-black uppercase tracking-wider text-white">
+              Legal & Transparency
+            </h4>
+            <ul class="space-y-2.5 text-xs font-medium">
+              <li>
+                <button 
+                  type="button"
+                  id="footer-about-us-link"
+                  data-footer-modal="about"
+                  class="transition flex items-center gap-1.5 cursor-pointer text-left text-slate-400 hover:text-blue-400"
+                >
+                  <i class="fa-solid fa-circle-info text-blue-400 w-3.5 text-xs shrink-0"></i>
+                  <span>About Us</span>
+                </button>
+              </li>
+
+              <li>
+                <button 
+                  type="button"
+                  id="footer-public-notice-link"
+                  data-footer-modal="publicNotice"
+                  class="transition flex items-center gap-1.5 cursor-pointer text-left text-slate-400 hover:text-amber-400"
+                >
+                  <i class="fa-solid fa-file-lines text-amber-400 w-3.5 text-xs shrink-0"></i>
+                  <span>Public Notice</span>
+                </button>
+              </li>
+
+              <li>
+                <button 
+                  type="button"
+                  id="footer-privacy-policy-link"
+                  data-footer-modal="privacy"
+                  class="transition flex items-center gap-1.5 cursor-pointer text-left text-slate-400 hover:text-emerald-400"
+                >
+                  <i class="fa-solid fa-shield-halved text-emerald-400 w-3.5 text-xs shrink-0"></i>
+                  <span>Privacy Policy</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Official Social Media Community Links -->
+          <div class="sm:col-span-2 lg:col-span-3 space-y-3">
+            <h4 class="text-xs font-black uppercase tracking-wider text-white">
+              Connect With PostalPro Community
+            </h4>
+
+            <div class="flex items-center gap-3 pt-1">
+              <!-- WhatsApp -->
+              <a
+                href="https://wa.me/916309833253?text=Hello%20PostalPro%20Team!%20I%20am%20using%20PostalPro%20tools."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Community"
+                title="WhatsApp Community"
+                class="p-2.5 rounded-2xl border flex items-center justify-center transition-all cursor-pointer shadow-xs hover:shadow-md hover:scale-110 active:scale-95 bg-slate-900 border-slate-800 hover:border-slate-600"
+              >
+                <svg viewBox="0 0 32 32" class="w-6 h-6 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="16" fill="#25D366" />
+                  <path d="M23.6 8.4C21.6 6.4 18.9 5.3 16 5.3C9.9 5.3 5 10.2 5 16.3C5 18.2 5.5 20.1 6.5 21.8L5 27L10.4 25.6C12 26.5 13.9 27 16 27C22.1 27 27 22.1 27 16C27 13.1 25.9 10.4 23.6 8.4ZM16 25.2C14.2 25.2 12.5 24.7 11.1 23.9L10.7 23.7L7.5 24.5L8.4 21.4L8.1 20.9C7.2 19.5 6.7 17.9 6.7 16.3C6.7 11.2 10.9 7 16 7C18.5 7 20.8 8 22.5 9.7C24.2 11.4 25.2 13.7 25.2 16.2C25.2 21.2 21.1 25.2 16 25.2ZM21 18.5C20.7 18.4 19.4 17.7 19.1 17.6C18.9 17.5 18.7 17.5 18.5 17.8C18.3 18.1 17.8 18.7 17.6 18.9C17.5 19.1 17.3 19.1 17 19C16.7 18.9 15.8 18.6 14.7 17.6C13.8 16.8 13.2 15.8 13.1 15.5C12.9 15.2 13.1 15.1 13.2 14.9C13.3 14.8 13.5 14.6 13.6 14.4C13.8 14.3 13.8 14.1 13.9 14C14 13.8 14 13.7 13.9 13.5C13.8 13.4 13.3 12.1 13.1 11.6C12.9 11.1 12.7 11.1 12.5 11.1C12.3 11.1 12.1 11.1 11.9 11.1C11.7 11.1 11.4 11.2 11.2 11.4C11 11.6 10.3 12.3 10.3 13.7C10.3 15.1 11.3 16.5 11.5 16.7C11.6 16.9 13.5 19.8 16.4 21C17.1 21.3 17.6 21.5 18.1 21.6C18.8 21.8 19.4 21.8 20 21.7C20.6 21.6 21.8 21 22 20.3C22.3 19.6 22.3 19 22.2 18.9C22.1 18.8 21.9 18.7 21.6 18.5H21Z" fill="white" />
+                </svg>
+              </a>
+
+              <!-- Instagram -->
+              <a
+                href="https://instagram.com/pavan048"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Channel"
+                title="Instagram Channel"
+                class="p-2.5 rounded-2xl border flex items-center justify-center transition-all cursor-pointer shadow-xs hover:shadow-md hover:scale-110 active:scale-95 bg-slate-900 border-slate-800 hover:border-slate-600"
+              >
+                <svg viewBox="0 0 32 32" class="w-6 h-6 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="footer-ig-grad" cx="30%" cy="107%" r="130%">
+                      <stop offset="0%" stop-color="#fdf497" />
+                      <stop offset="5%" stop-color="#fdf497" />
+                      <stop offset="45%" stop-color="#fd5949" />
+                      <stop offset="60%" stop-color="#d6249f" />
+                      <stop offset="90%" stop-color="#285AEB" />
+                    </radialGradient>
+                  </defs>
+                  <rect width="32" height="32" rx="8" fill="url(#footer-ig-grad)" />
+                  <rect x="7" y="7" width="18" height="18" rx="5" stroke="white" stroke-width="2.2" fill="none" />
+                  <circle cx="16" cy="16" r="4.2" stroke="white" stroke-width="2.2" fill="none" />
+                  <circle cx="21.5" cy="10.5" r="1.2" fill="white" />
+                </svg>
+              </a>
+
+              <!-- Facebook -->
+              <a
+                href="https://facebook.com/vemulapavanvamsee/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Group"
+                title="Facebook Group"
+                class="p-2.5 rounded-2xl border flex items-center justify-center transition-all cursor-pointer shadow-xs hover:shadow-md hover:scale-110 active:scale-95 bg-slate-900 border-slate-800 hover:border-slate-600"
+              >
+                <svg viewBox="0 0 32 32" class="w-6 h-6 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="16" fill="#1877F2" />
+                  <path d="M21.5 16.5H18V27H13.5V16.5H11.5V12.7H13.5V10.2C13.5 8.2 14.7 6.5 17.8 6.5C19.1 6.5 20.1 6.7 20.1 6.7L19.8 10.2C19.8 10.2 18.8 10.1 17.8 10.1C16.8 10.1 16.5 10.6 16.5 11.5V12.7H20.3L21.5 16.5Z" fill="white" />
+                </svg>
+              </a>
+
+              <!-- Telegram -->
+              <a
+                href="https://t.me/postalproindia"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram Group"
+                title="Telegram Group"
+                class="p-2.5 rounded-2xl border flex items-center justify-center transition-all cursor-pointer shadow-xs hover:shadow-md hover:scale-110 active:scale-95 bg-slate-900 border-slate-800 hover:border-slate-600"
+              >
+                <svg viewBox="0 0 32 32" class="w-6 h-6 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="16" fill="#229ED9" />
+                  <path d="M8.2 15.6L22.5 10.1C23.2 9.8 23.8 10.3 23.6 11.1L21.2 22.4C21 23.2 20.5 23.4 19.8 23L16.2 20.3L14.5 21.9C14.3 22.1 14.1 22.3 13.7 22.3L14 18.1L21.6 11.2C21.9 10.9 21.5 10.8 21.1 11L11.7 16.9L7.6 15.6C6.7 15.3 6.7 14.7 8.2 15.6Z" fill="white" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Copyright Strip -->
+        <div class="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-medium text-slate-400">
+          <p class="text-center sm:text-left">
+            © 2026 <strong class="text-slate-300">PostalPro.in</strong> • All Rights Reserved
+          </p>
+
+          <p class="text-center sm:text-right text-slate-400">
+            Independent Postal Utility & Productivity Platform
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- STICKY FOOTER NAVIGATION (TOUCH OPTIMIZED FOR FIELD USE) -->
+    <nav id="mobileNav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-300 shadow-lg px-2 py-1.5 flex items-center justify-around">
+      <button data-view-btn="dashboard" class="mobile-nav-btn touch-target flex flex-col items-center justify-center flex-1 py-1 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
+        <i class="fa-solid fa-gauge-high text-lg nav-icon transition-transform"></i>
+        <span class="text-[10px] font-bold mt-0.5 nav-text">Dashboard</span>
+      </button>
+      <button data-view-btn="send" class="mobile-nav-btn touch-target flex flex-col items-center justify-center flex-1 py-1 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
+        <i class="fa-solid fa-paper-plane text-lg nav-icon transition-transform"></i>
+        <span class="text-[10px] font-bold mt-0.5 nav-text">Send</span>
+      </button>
+      <button data-view-btn="leads" class="mobile-nav-btn touch-target flex flex-col items-center justify-center flex-1 py-1 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
+        <i class="fa-solid fa-address-book text-lg nav-icon transition-transform"></i>
+        <span class="text-[10px] font-bold mt-0.5 nav-text">Leads</span>
+      </button>
+      <button data-view-btn="profile" class="mobile-nav-btn touch-target flex flex-col items-center justify-center flex-1 py-1 rounded-xl text-slate-600 hover:text-slate-900 transition-colors">
+        <i class="fa-solid fa-user-shield text-lg nav-icon transition-transform"></i>
+        <span class="text-[10px] font-bold mt-0.5 nav-text">Profile</span>
+      </button>
+    </nav>
+
+    <!-- FLOATING GO TO TOP BUTTON -->
+    <button 
+      id="scrollToTopBtn" 
+      type="button"
+      aria-label="Scroll to top of page"
+      title="Go to top of page"
+      class="fixed bottom-20 md:bottom-8 right-4 md:right-8 z-40 bg-blue-700 hover:bg-blue-800 active:scale-95 text-white w-10 h-10 md:w-11 md:h-11 rounded-full shadow-lg border border-blue-400/40 flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none translate-y-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
+    >
+      <i class="fa-solid fa-arrow-up text-sm font-bold"></i>
+    </button>
+
+  </div>
+
+  <!-- BARCODE SCANNER MODAL -->
+  <div id="barcodeScannerModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden modal-card-anim">
+      <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-barcode text-amber-400"></i>
+          <h3 class="text-sm font-bold">Scan Article Barcode</h3>
+        </div>
+        <button id="closeScanModalBtn" class="touch-target text-slate-400 hover:text-white p-1 rounded-lg">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <div class="p-4">
+        <div id="qr-reader" class="w-full rounded-xl overflow-hidden bg-slate-100 border border-slate-300"></div>
+        <p class="text-center text-xs text-slate-500 mt-3">
+          Align the postal barcode or QR code inside the viewfinder window.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFICATION CLEARANCE LOCK MODAL (SHOWN ON DISPATCH IF UNVERIFIED) -->
+  <div id="verificationLockModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col modal-card-anim">
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-amber-700 to-amber-800 text-white px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold text-base">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold tracking-tight">Identity Clearance Required</h3>
+            <p class="text-[11px] text-amber-200">Interactive Demo Mode Protection</p>
+          </div>
+        </div>
+        <button id="closeLockModalBtn" class="touch-target text-amber-200 hover:text-white p-1 rounded-lg">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 space-y-4 text-xs text-slate-700 leading-relaxed">
+        <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-950 space-y-1.5">
+          <p class="font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-check text-amber-700"></i>
+            1-Time Departmental Clearance
+          </p>
+          <p class="text-[11px] text-amber-900 leading-normal">
+            To prevent unsolicited spam and maintain official postal trust, direct WhatsApp outreach requires a 1-time cryptographic clearance code generated by the Admin for your specific Name, Division, and Employee ID.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-800 uppercase">Enter Your Specific Clearance Code</label>
+          <div class="flex items-center space-x-2">
+            <input 
+              type="text" 
+              id="modalClearanceCodeInput" 
+              placeholder="e.g. PS-2941-KURN-9F3A" 
+              class="w-full uppercase font-mono font-bold px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs tracking-wider focus:ring-2 focus:ring-blue-600 focus:bg-white focus:outline-none"
+            >
+            <button 
+              type="button" 
+              id="modalApplyCodeBtn" 
+              class="touch-target px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-xl text-xs shrink-0 transition cursor-pointer"
+            >
+              Verify Code
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="pt-2 border-t border-slate-100 space-y-2">
+          <button 
+            type="button" 
+            id="modalOpenRegisterBtn" 
+            class="touch-target w-full py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold text-xs flex items-center justify-center space-x-2 transition border border-blue-200 cursor-pointer"
+          >
+            <i class="fa-solid fa-id-card text-blue-700 text-sm"></i>
+            <span>Submit Verification Request to Admin</span>
+          </button>
+
+          <button 
+            type="button" 
+            id="simulateDemoDispatchBtn" 
+            class="touch-target w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center space-x-2 transition border border-slate-300 cursor-pointer"
+          >
+            <i class="fa-solid fa-play text-blue-600 text-xs"></i>
+            <span>Simulate Pitch & Log Demo Lead</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN CLEARANCE & CODE DISPATCHER CONSOLE MODAL -->
+  <div id="adminCodeHelperModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-xs overflow-y-auto no-scrollbar modal-backdrop-anim">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col my-auto max-h-[92vh] modal-card-anim">
+      
+      <!-- Admin Header -->
+      <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white px-3.5 sm:px-5 py-3 sm:py-3.5 flex items-center justify-between border-b border-slate-800 shrink-0 gap-2">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm shadow-sm shrink-0">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h3 class="text-xs sm:text-sm font-extrabold text-white truncate">Admin Clearance Console</h3>
+              <span class="text-[8px] sm:text-[9px] font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-1.5 py-0.2 rounded-full">
+                Auth
+              </span>
+            </div>
+            <p class="text-[10px] sm:text-[11px] text-slate-300 font-medium truncate">
+              Logged in: <span id="adminSessionEmailDisplay" class="font-mono text-amber-300 font-bold">postalpro.in@gmail.com</span>
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-1.5 shrink-0">
+          <button 
+            type="button" 
+            id="adminModalLogoutBtn" 
+            class="text-[10px] sm:text-[11px] font-bold text-rose-300 hover:text-white bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/50 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg transition cursor-pointer flex items-center gap-1"
+            title="Logout Admin Session"
+          >
+            <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
+            <span>Logout</span>
+          </button>
+          <button 
+            type="button" 
+            id="closeAdminCodeModalBtn" 
+            class="touch-target text-slate-400 hover:text-white p-1 rounded-lg"
+          >
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Console Sub-Navigation Tabs (Mobile Responsive Segmented Control) -->
+      <div class="bg-slate-100 border-b border-slate-200 p-1.5 sm:p-2 grid grid-cols-3 gap-1 sm:gap-2 shrink-0">
+        <button 
+          type="button" 
+          id="adminSubTabQueueBtn" 
+          class="py-2 px-1 sm:px-3 rounded-lg text-[11px] sm:text-xs font-extrabold bg-white text-blue-900 border border-slate-300 shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer transition text-center"
+        >
+          <i class="fa-solid fa-inbox text-blue-600 text-xs shrink-0"></i>
+          <span class="truncate">Requests</span>
+          <span id="adminQueueCountBadge" class="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold shrink-0">0</span>
+        </button>
+        <button 
+          type="button" 
+          id="adminSubTabWhitelistBtn" 
+          class="py-2 px-1 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer transition text-center"
+        >
+          <i class="fa-solid fa-shield-check text-emerald-600 text-xs shrink-0"></i>
+          <span class="truncate">Whitelist</span>
+          <span id="adminWhitelistCountBadge" class="bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold shrink-0">0</span>
+        </button>
+        <button 
+          type="button" 
+          id="adminSubTabGenBtn" 
+          class="py-2 px-1 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer transition text-center"
+        >
+          <i class="fa-solid fa-key text-purple-600 text-xs shrink-0"></i>
+          <span class="truncate">Generator</span>
+        </button>
+      </div>
+
+      <!-- Admin Console Body -->
+      <div class="p-3 sm:p-5 space-y-4 overflow-y-auto no-scrollbar text-xs text-slate-700 leading-relaxed font-sans max-h-[75vh]">
+        
+        <!-- SUB-PANEL 1: INCOMING APPLICANT QUEUE WITH 12-HOUR AUTO-REMOVAL -->
+        <div id="adminPanelQueue" class="space-y-3">
+          <!-- 12-Hour Auto-Purge Notice -->
+          <div class="bg-amber-50 border border-amber-200/90 rounded-xl p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-start space-x-2 text-amber-950 text-xs">
+              <i class="fa-solid fa-clock-rotate-left text-amber-600 mt-0.5 shrink-0 text-sm"></i>
+              <div>
+                <p class="font-bold text-amber-900 text-xs">12-Hour Auto-Purge Policy Active</p>
+                <p class="text-[10px] sm:text-[11px] text-amber-800 mt-0.5">
+                  Approved applicant cards auto-purge after 12h. Permanent clearance is stored in <strong>Verified Whitelist</strong>.
+                </p>
+              </div>
+            </div>
+            <button 
+              type="button" 
+              id="adminPurgeExpiredBtn" 
+              class="touch-target text-[10px] font-bold bg-amber-200/90 hover:bg-amber-300 text-amber-950 px-2.5 py-1.5 rounded-lg shrink-0 transition cursor-pointer self-start sm:self-center flex items-center gap-1"
+              title="Purge approved requests older than 12 hours"
+            >
+              <i class="fa-solid fa-trash-can text-[10px]"></i>
+              <span>Clean Old (>12h)</span>
+            </button>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-lg border border-slate-200 text-xs w-full sm:w-auto">
+              <button 
+                type="button" 
+                id="adminQueueFilterActiveBtn" 
+                class="flex-1 sm:flex-initial px-3 py-1.5 rounded-md font-bold text-[11px] transition cursor-pointer flex items-center justify-center gap-1.5 bg-white text-blue-900 shadow-2xs"
+              >
+                <i class="fa-solid fa-inbox text-[10px]"></i>
+                <span>Active Queue</span>
+                <span id="adminActiveQueueCountBadge" class="px-1.5 py-0.2 bg-blue-100 text-blue-800 text-[10px] rounded-full font-mono">0</span>
+              </button>
+              <button 
+                type="button" 
+                id="adminQueueFilterDismissedBtn" 
+                class="flex-1 sm:flex-initial px-3 py-1.5 rounded-md font-medium text-[11px] text-slate-600 hover:text-slate-900 transition cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <i class="fa-solid fa-clock-rotate-left text-[10px]"></i>
+                <span>Dismissed Archive</span>
+                <span id="adminDismissedQueueCountBadge" class="px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] rounded-full font-mono">0</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2 self-end sm:self-auto">
+              <button 
+                type="button" 
+                id="adminRestoreAllDismissedBtn" 
+                class="hidden text-[11px] text-emerald-700 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 font-bold items-center gap-1 cursor-pointer py-1.5 px-2.5 rounded-lg transition"
+                title="Restore all dismissed requests back into active queue"
+              >
+                <i class="fa-solid fa-arrow-rotate-left text-[10px]"></i>
+                <span>Restore All</span>
+              </button>
+              <button 
+                type="button" 
+                id="adminRefreshRequestsBtn" 
+                class="text-[11px] text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 cursor-pointer py-1.5 px-2 rounded hover:bg-blue-50"
+              >
+                <i class="fa-solid fa-rotate text-[10px]"></i>
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="adminRequestsListContainer" class="space-y-2.5">
+            <!-- Dynamically rendered verification requests with Review Statuses -->
+            <div class="p-6 text-center text-slate-400 text-xs italic bg-slate-50 rounded-xl border border-slate-200">
+              No recent verification requests in local queue.
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PANEL 2: PERMANENT VERIFIED WHITELIST & CROSS-MOBILE SYNC -->
+        <div id="adminPanelWhitelist" class="hidden space-y-3.5">
+          <!-- Whitelist Explanation & Multi-Device Sync -->
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 space-y-2.5">
+            <div class="flex items-start space-x-2 text-emerald-950 text-xs">
+              <i class="fa-solid fa-shield-check text-emerald-700 mt-0.5 text-sm shrink-0"></i>
+              <div>
+                <h4 class="font-bold text-emerald-950 text-xs">Verified Employee Whitelist (Cross-Mobile)</h4>
+                <p class="text-[10px] sm:text-[11px] text-emerald-800 mt-0.5">
+                  Whitelisted officers can enter their Employee ID on <strong>any mobile phone</strong> to log in with pre-verified status.
+                </p>
+              </div>
+            </div>
+
+            <!-- Sync Token Tools -->
+            <div class="pt-2 border-t border-emerald-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="grid grid-cols-2 sm:flex sm:items-center gap-2">
+                <button 
+                  type="button" 
+                  id="adminExportWhitelistBtn" 
+                  class="touch-target px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg transition flex items-center justify-center gap-1 cursor-pointer shadow-2xs text-center"
+                >
+                  <i class="fa-solid fa-cloud-arrow-down text-xs"></i>
+                  <span class="truncate">Copy Token</span>
+                </button>
+                <button 
+                  type="button" 
+                  id="adminImportWhitelistBtn" 
+                  class="touch-target px-2.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition flex items-center justify-center gap-1 cursor-pointer shadow-2xs text-center"
+                >
+                  <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+                  <span class="truncate">Import Token</span>
+                </button>
+              </div>
+              <span class="text-[10px] text-emerald-800 font-medium italic">Share token to sync between phones.</span>
+            </div>
+          </div>
+
+          <!-- Add User Manually to Whitelist -->
+          <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
+            <summary class="flex items-center justify-between p-3 cursor-pointer text-xs font-bold text-slate-800 group-open:bg-slate-50">
+              <span class="flex items-center gap-1.5">
+                <i class="fa-solid fa-user-plus text-blue-600"></i>
+                <span>+ Manually Whitelist an Officer</span>
+              </span>
+              <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <form id="adminManualWhitelistForm" class="p-3.5 border-t border-slate-200 space-y-3 bg-slate-50/50">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-600 mb-1">Employee Full Name *</label>
+                  <input type="text" id="manualWhiteName" required placeholder="e.g. S. RAJESHWARI" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold uppercase" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-600 mb-1">Employee ID / CSI ID *</label>
+                  <input type="text" id="manualWhiteEmpId" required placeholder="e.g. 10098412" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-mono font-bold uppercase" />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-600 mb-1">Division *</label>
+                  <input type="text" id="manualWhiteDiv" required placeholder="e.g. KURNOOL DIVISION" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold uppercase" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-600 mb-1">Mobile / WhatsApp (Optional)</label>
+                  <input type="tel" id="manualWhiteMobile" placeholder="e.g. 9876543210" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold" />
+                </div>
+              </div>
+              <button type="submit" class="touch-target w-full py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg text-xs transition cursor-pointer shadow-2xs">
+                Save & Add to Verified Whitelist
+              </button>
+            </form>
+          </details>
+
+          <!-- Whitelist Table Container -->
+          <div class="space-y-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+              <span class="font-bold text-slate-900 uppercase text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-list-check text-emerald-600"></i>
+                <span>Active Whitelist Directory</span>
+              </span>
+              <input 
+                type="text" 
+                id="adminWhitelistSearchInput" 
+                placeholder="Search name, ID or division..." 
+                class="px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg bg-white w-full sm:w-56 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              />
+            </div>
+
+            <div id="adminWhitelistTableContainer" class="space-y-2 max-h-64 overflow-y-auto no-scrollbar">
+              <!-- Dynamically populated whitelist items -->
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PANEL 3: STRICT CRYPTOGRAPHIC CLEARANCE GENERATOR -->
+        <div id="adminPanelGen" class="hidden space-y-3.5">
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50/60 border border-blue-200/90 rounded-2xl p-3.5 sm:p-5 space-y-3.5 shadow-xs">
+            <div class="flex items-center justify-between border-b border-blue-200/70 pb-2.5">
+              <div>
+                <h4 class="font-extrabold text-blue-950 uppercase text-xs flex items-center gap-2">
+                  <i class="fa-solid fa-fingerprint text-blue-700 text-sm"></i>
+                  <span>Strict Cryptographic Code Generator</span>
+                </h4>
+                <p class="text-[10px] sm:text-[11px] text-blue-800 mt-0.5">
+                  Deterministic signature from Name, Division & Employee ID.
+                </p>
+              </div>
+              <span class="text-[9px] sm:text-[10px] font-mono font-bold bg-blue-200/70 text-blue-950 px-2 py-0.5 rounded-md shrink-0">
+                Secured
+              </span>
+            </div>
+
+            <!-- Input Fields for Generator -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div>
+                <label class="block text-[10px] sm:text-[11px] font-bold uppercase text-slate-700 mb-1">
+                  Employee Full Name
+                </label>
+                <input 
+                  type="text" 
+                  id="adminCalcNameInput" 
+                  placeholder="e.g. K. VAMSEE KRISHNA" 
+                  class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold uppercase focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-[10px] sm:text-[11px] font-bold uppercase text-slate-700 mb-1">
+                  Postal Division
+                </label>
+                <input 
+                  type="text" 
+                  id="adminCalcDivInput" 
+                  placeholder="e.g. KURNOOL DIVISION" 
+                  class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold uppercase focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-[10px] sm:text-[11px] font-bold uppercase text-slate-700 mb-1">
+                  Employee ID / CSI ID
+                </label>
+                <input 
+                  type="text" 
+                  id="adminCalcEmpInput" 
+                  placeholder="e.g. 10082941" 
+                  class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-mono font-bold uppercase focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Hidden mobile storage for direct WhatsApp dispatch -->
+            <input type="hidden" id="adminCalcMobileInput" value="" />
+
+            <!-- Generated Code Display Card -->
+            <div class="bg-white rounded-xl p-3.5 sm:p-4 border border-blue-300 space-y-3 shadow-inner">
+              <div class="text-center sm:text-left">
+                <span class="text-[10px] text-slate-500 uppercase font-black tracking-wider block mb-1">
+                  Applicant Specific Clearance Code:
+                </span>
+                <div id="adminGeneratedCodeDisplay" class="font-mono font-black text-lg sm:text-xl text-blue-900 tracking-wider break-all select-all">
+                  PS-XXXX-XXXX-XXXX
+                </div>
+              </div>
+
+              <!-- Action Buttons for Generated Code -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100">
+                <button 
+                  type="button" 
+                  id="adminSendWhatsappBtn" 
+                  class="touch-target py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
+                  title="Send Code Directly to Applicant via WhatsApp"
+                >
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>Send on WhatsApp</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  id="copyGeneratedCodeBtn" 
+                  class="touch-target py-2 px-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
+                >
+                  <i class="fa-solid fa-copy text-xs"></i>
+                  <span>Copy Code</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIRECT LOCAL UNLOCK -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xs">
+            <div class="text-center sm:text-left">
+              <span class="font-bold text-slate-900 text-xs block">Active Profile on This Device:</span>
+              <span id="adminCurrentStatusLabel" class="text-[11px] text-slate-500 font-medium">Pending Verification</span>
+            </div>
+            <button 
+              type="button" 
+              id="adminInstantUnlockBtn" 
+              class="touch-target w-full sm:w-auto px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Clear Current Device Profile</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-APP HARD WIPE CONFIRMATION MODAL -->
+  <div id="hardWipeConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-red-200 overflow-hidden flex flex-col modal-card-anim">
+      <div class="bg-gradient-to-r from-red-600 to-rose-700 text-white p-5 text-center">
+        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-2.5 text-2xl shadow-inner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="text-base font-extrabold tracking-tight">Hard Wipe Device Storage</h3>
+        <p class="text-xs text-red-100 mt-0.5">Permanent Zero-Trace Reset</p>
+      </div>
+
+      <div class="p-5 space-y-3.5 text-xs text-slate-700">
+        <p class="text-slate-600 leading-relaxed font-medium">
+          This operation will permanently purge all local records from this browser:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-slate-600 bg-red-50/70 p-3 rounded-xl border border-red-100 font-medium">
+          <li>All saved lead pitches & customer contacts</li>
+          <li>Employee profile & verified clearance keys</li>
+          <li>Cached verification requests</li>
+        </ul>
+        <p class="text-[11px] text-slate-500 italic">
+          This action cannot be undone. Are you sure you wish to hard reset?
+        </p>
+
+        <div class="flex items-center justify-end space-x-2.5 pt-2 border-t border-slate-100">
+          <button 
+            type="button" 
+            id="cancelHardWipeBtn" 
+            class="touch-target px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            id="executeHardWipeBtn" 
+            class="touch-target px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition flex items-center gap-1.5 cursor-pointer"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            <span>Confirm & Wipe Everything</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE CREATED / WHATSAPP ID & CHARGE REPORT DISPATCH PROMPT MODAL -->
+  <div id="profileCreatedPromptModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/85 backdrop-blur-xs p-3 sm:p-4 modal-backdrop-anim">
+    <div class="min-h-full flex items-start sm:items-center justify-center py-3 sm:py-6">
+      <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto modal-card-anim">
+        <!-- Top Header -->
+        <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-5 text-center relative border-b border-blue-800/60">
+          <div class="w-13 h-13 bg-white/10 rounded-2xl border border-white/20 flex items-center justify-center mx-auto mb-2.5 text-amber-400 text-2xl shadow-inner">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
+          <div class="flex items-center justify-center gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
+              <i class="fa-solid fa-circle-check text-[9px]"></i>
+              <span>Profile Saved</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-400/40">
+              <i class="fa-solid fa-clock text-[9px]"></i>
+              <span>12-Hour Review</span>
+            </span>
+          </div>
+          <h3 class="text-lg font-black tracking-tight text-white">Profile Created Successfully!</h3>
+          <p class="text-xs text-blue-200/90 mt-0.5">
+            Ref: <span id="profileCreatedRefId" class="font-mono font-bold text-amber-300">REF-PENDING</span> • Emp ID: <span id="profileCreatedEmpId" class="font-mono font-bold text-white">********</span>
+          </p>
+        </div>
+
+        <div class="p-5 sm:p-6 space-y-4 text-slate-800">
+          <!-- Step 1: Send ID / Charge Report on WhatsApp -->
+          <div class="bg-amber-50/90 border-2 border-amber-300/80 rounded-2xl p-4 space-y-3 shadow-2xs">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shrink-0 shadow-xs mt-0.5">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-950">
+                  Required: Send ID Card / Charge Report on WhatsApp
+                </h4>
+                <p class="text-xs text-amber-900 leading-relaxed font-medium">
+                  Please share a clear photo of your <strong>Departmental ID Card</strong> OR <strong>Charge Report / BPM Pay Slip</strong> with PostalPro Admin on WhatsApp to receive your 4-digit Clearance Code.
+                </p>
+              </div>
+            </div>
+
+            <a 
+              id="profileCreatedWhatsAppBtn" 
+              href="https://wa.me/916309833253" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-full touch-target py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i class="fa-brands fa-whatsapp text-base"></i>
+              <span>Send ID Card / Charge Report on WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Step 2: Clearance Code Entry (Matches User Screenshot) -->
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+            <div class="space-y-0.5">
+              <h4 class="text-xs font-black uppercase tracking-wider text-slate-800">
+                ENTER VERIFICATION CLEARANCE CODE
+              </h4>
+              <p class="text-[11px] text-slate-500">
+                Received via WhatsApp or Email from PostalPro Admin
+              </p>
+            </div>
+
+            <form id="profileCreatedClearanceForm" class="space-y-2.5">
+              <div class="flex items-center gap-2">
+                <div class="relative flex-1">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+                    <i class="fa-solid fa-key text-xs"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="profileCreatedClearanceInput" 
+                    placeholder="E.G. PS-" 
+                    class="w-full uppercase font-mono font-bold pl-8 pr-3 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-2xs"
+                  >
+                </div>
+                <button 
+                  type="submit" 
+                  id="profileCreatedUnlockBtn" 
+                  class="touch-target px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 shrink-0 cursor-pointer"
+                >
+                  <i class="fa-solid fa-unlock text-xs"></i>
+                  <span>Unlock Full App</span>
+                </button>
+              </div>
+
+              <div>
+                <a 
+                  id="profileCreatedFastWhatsAppLink" 
+                  href="https://wa.me/916309833253" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-emerald-700 hover:text-emerald-900 font-bold inline-flex items-center gap-1.5 text-xs transition"
+                >
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>Send ID Card / Charge Report on WhatsApp</span>
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <!-- Bottom Action: Continue to Demo Sandbox -->
+          <div class="pt-1 space-y-2">
+            <button 
+              type="button" 
+              id="profileCreatedContinueDemoBtn" 
+              class="w-full touch-target py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-bold text-xs transition shadow-2xs flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Continue to App (Interactive Demo Mode)</span>
+              <i class="fa-solid fa-arrow-right text-[11px]"></i>
+            </button>
+            <p class="text-[11px] text-slate-500 text-center leading-normal">
+              You can explore preview templates & practice logging leads while your verification is processed within 12 hours.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFICATION SUCCESS / WORKFLOW PREFERENCE PROMPT MODAL -->
+  <div id="verifySuccessPromptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col modal-card-anim">
+      <div class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white p-6 text-center">
+        <div class="w-14 h-14 bg-white/20 rounded-2xl border border-white/30 flex items-center justify-center mx-auto mb-3 text-white text-2xl shadow-inner">
+          <i class="fa-solid fa-shield-check"></i>
+        </div>
+        <h3 class="text-lg font-extrabold tracking-tight">Identity Verified Successfully!</h3>
+        <p class="text-xs text-emerald-100 mt-1 font-medium">
+          Full SchemeShare Direct WhatsApp outreach is unlocked.
+        </p>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs text-slate-700 leading-relaxed font-sans">
+        <p class="text-slate-600 leading-relaxed">
+          Your official departmental profile is now verified. How would you like to initialize your customer lead ledger?
+        </p>
+
+        <div class="space-y-2.5 pt-1">
+          <!-- Option A: Fresh Start (Clear Demo Leads) -->
+          <button 
+            type="button" 
+            id="clearDemoLeadsBtn" 
+            class="w-full p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/70 hover:bg-emerald-100 text-left transition flex items-start space-x-3 cursor-pointer group"
+          >
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
+              <i class="fa-solid fa-sparkles"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-emerald-950 text-xs group-hover:text-emerald-900">
+                Start Fresh (Clear 5 Demo Leads)
+              </h4>
+              <p class="text-[11px] text-emerald-800 mt-0.5">
+                Remove sample customer cards so you can log your actual daily branch deliveries cleanly.
+              </p>
+            </div>
+          </button>
+
+          <!-- Option B: Keep Demo Leads -->
+          <button 
+            type="button" 
+            id="keepDemoLeadsBtn" 
+            class="w-full p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left transition flex items-start space-x-3 cursor-pointer group"
+          >
+            <div class="w-8 h-8 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
+              <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs">
+                Keep Sample Leads for Reference
+              </h4>
+              <p class="text-[11px] text-slate-500 mt-0.5">
+                Retain the sample customer cards while you continue practicing your outreach.
+              </p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE LEAD CONFIRMATION MODAL -->
+  <div id="deleteLeadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col modal-card-anim">
+      <div class="p-5 sm:p-6 space-y-4">
+        <div class="flex items-start space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">
+            <i class="fa-solid fa-trash-can"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-slate-900">Delete Customer Lead?</h3>
+            <p class="text-xs text-slate-500 mt-0.5">This action will remove the record from your offline device ledger.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+          <div class="flex justify-between items-center text-slate-700">
+            <span class="text-slate-500 font-medium">Customer:</span>
+            <span id="deleteModalCustomerName" class="font-bold text-slate-900 truncate max-w-[200px]">--</span>
+          </div>
+          <div class="flex justify-between items-center text-slate-700">
+            <span class="text-slate-500 font-medium">Mobile:</span>
+            <span id="deleteModalCustomerMobile" class="font-mono font-semibold text-slate-800">--</span>
+          </div>
+          <div class="flex justify-between items-center text-slate-700">
+            <span class="text-slate-500 font-medium">Article Ref:</span>
+            <span id="deleteModalArticleRef" class="font-mono text-slate-800">--</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5 pt-2">
+          <button 
+            type="button" 
+            id="cancelDeleteLeadBtn" 
+            class="touch-target flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            id="confirmDeleteLeadBtn" 
+            class="touch-target flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs shadow-xs transition cursor-pointer flex items-center justify-center gap-1.5"
+          >
+            <i class="fa-solid fa-trash-can text-xs"></i>
+            <span>Delete Record</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER INFORMATION MODAL -->
+  <div id="footerInfoModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs modal-backdrop-anim">
+    <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[85vh] modal-card-anim">
+      
+      <!-- Modal Header -->
+      <div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between border-b border-slate-800 shrink-0">
+        <div class="flex items-center space-x-2.5">
+          <div id="footerModalIconWrapper" class="w-8 h-8 rounded-lg bg-blue-600/80 flex items-center justify-center text-amber-300">
+            <i id="footerModalIcon" class="fa-solid fa-circle-info text-sm"></i>
+          </div>
+          <div>
+            <h3 id="footerModalTitle" class="text-sm font-bold tracking-tight text-white">About Us</h3>
+            <p id="footerModalSubtitle" class="text-[11px] text-slate-400 font-medium">PostalPro Community & Transparency</p>
+          </div>
+        </div>
+        <button id="closeFooterModalBtn" class="touch-target text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors" title="Close">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Dynamic Rich Content) -->
+      <div id="footerModalBody" class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs text-slate-700 leading-relaxed font-sans">
+        <!-- Content dynamically injected here -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-slate-50 px-5 py-3 border-t border-slate-200 flex items-center justify-between shrink-0">
+        <span class="text-[11px] text-slate-500 font-medium">PostalPro.in • Built for India Post GDS & BPMs</span>
+        <button id="dismissFooterModalBtn" class="touch-target px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-colors shadow-xs">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col space-y-2 max-w-sm pointer-events-none"></div>
+
+  <!-- LOAD APPLICATION CORE MODULE -->
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
