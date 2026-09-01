@@ -577,6 +577,7 @@ export const MarketingPage: React.FC<MarketingPageProps> = ({
         themeObj={themeObj}
         t={t}
         onOpenModal={onOpenLegalModal}
+        onNavigate={onNavigate}
       />
     </div>
   );
