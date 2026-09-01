@@ -3,16 +3,16 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Change to 'master' if your repo branch is named master
+      - main
+      - master
+      - masterbranch
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
   group: 'pages'
   cancel-in-progress: true
@@ -35,8 +35,46 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build application (Vite copies public/ directory to dist/)
-        run: npm run build
+      - name: Build application
+        run: |
+          # 1. Automatically build schemeshare subproject
+          if [ -f "schemeshare/package.json" ]; then
+            echo "Building schemeshare subproject..."
+            cd schemeshare && npm install && npm run build && cd ..
+            mkdir -p public/schemeshare
+            cp -r schemeshare/dist/* public/schemeshare/
+          elif [ -f "public/schemeshare/package.json" ]; then
+            echo "Building public/schemeshare subproject..."
+            cd public/schemeshare && npm install && npm run build && cd ../..
+            cp -r public/schemeshare/dist/* public/schemeshare/
+          fi
+
+          # 2. Automatically build plileads subproject
+          if [ -f "plileads/package.json" ]; then
+            echo "Building plileads subproject..."
+            cd plileads && npm install && npm run build && cd ..
+            mkdir -p public/plileads
+            cp -r plileads/dist/* public/plileads/
+          elif [ -f "public/plileads/package.json" ]; then
+            echo "Building public/plileads subproject..."
+            cd public/plileads && npm install && npm run build && cd ../..
+            cp -r public/plileads/dist/* public/plileads/
+          fi
+
+          # 3. Automatically build tdbill subproject
+          if [ -f "tdbill/package.json" ]; then
+            echo "Building tdbill subproject..."
+            cd tdbill && npm install && npm run build && cd ..
+            mkdir -p public/tdbill
+            cp -r tdbill/dist/* public/tdbill/
+          elif [ -f "public/tdbill/package.json" ]; then
+            echo "Building public/tdbill subproject..."
+            cd public/tdbill && npm install && npm run build && cd ../..
+            cp -r public/tdbill/dist/* public/tdbill/
+          fi
+
+          # 4. Build main PostalPro root website
+          npm run build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
