@@ -192,10 +192,27 @@ export default function App() {
       window.open('https://postalpro.in/tdbill/', '_blank', 'noopener,noreferrer');
     } else if (tool.id === 'pli-leads-pro' || tool.targetView === 'plileads') {
       window.open('https://postalpro.in/plileads/', '_blank', 'noopener,noreferrer');
+    } else if (tool.id === 'scheme-share' || tool.targetView === 'schemeshare') {
+      window.open('https://postalpro.in/schemeshare/', '_blank', 'noopener,noreferrer');
     } else if (tool.externalUrl) {
       window.open(tool.externalUrl, '_blank', 'noopener,noreferrer');
     } else {
       setActiveInteractiveTool(tool);
+    }
+  };
+
+  const handleOpenLegalOrView = (view: AppView) => {
+    if (['about', 'privacy', 'publicNotice'].includes(view)) {
+      setLegalModalView(view);
+    } else if (view === 'plileads') {
+      window.open('https://postalpro.in/plileads/', '_blank', 'noopener,noreferrer');
+    } else if (view === 'tdbill') {
+      window.open('https://postalpro.in/tdbill/', '_blank', 'noopener,noreferrer');
+    } else if (view === 'schemeshare') {
+      window.open('https://postalpro.in/schemeshare/', '_blank', 'noopener,noreferrer');
+    } else {
+      setCurrentView(view);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -219,6 +236,8 @@ export default function App() {
             window.open('https://postalpro.in/plileads/', '_blank', 'noopener,noreferrer');
           } else if (view === 'tdbill') {
             window.open('https://postalpro.in/tdbill/', '_blank', 'noopener,noreferrer');
+          } else if (view === 'schemeshare') {
+            window.open('https://postalpro.in/schemeshare/', '_blank', 'noopener,noreferrer');
           } else {
             setCurrentView(view);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -264,7 +283,7 @@ export default function App() {
               }
             }}
             onSelectTool={handleSelectPostalTool}
-            onOpenLegalModal={(view) => setLegalModalView(view)}
+            onOpenLegalModal={handleOpenLegalOrView}
           />
         )}
 
@@ -304,7 +323,7 @@ export default function App() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
-            onOpenLegalModal={(view) => setLegalModalView(view)}
+            onOpenLegalModal={handleOpenLegalOrView}
           />
         )}
 
@@ -322,12 +341,12 @@ export default function App() {
               }
             }}
             onSelectTool={handleSelectPostalTool}
-            onOpenLegalModal={(view) => setLegalModalView(view)}
+            onOpenLegalModal={handleOpenLegalOrView}
           />
         )}
       </main>
 
-      {/* Sticky Bottom Navigation Bar on Mobile View (Icons for Home, Tools, Marketing, Theme) */}
+      {/* Sticky Bottom Navigation Bar on Mobile View (Home, Tools, Marketing, Theme) */}
       <BottomNav
         currentView={currentView}
         onNavigate={(view) => {
@@ -337,6 +356,7 @@ export default function App() {
         themeObj={themeObj}
         t={t}
         onOpenThemeModal={() => setIsThemeModalOpen(true)}
+        isThemeModalOpen={isThemeModalOpen}
       />
 
       {/* Animated Rocket Launch Scroll-to-Top Button */}
