@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { 
   Receipt, 
   ShieldCheck, 
+  Share2,
   ArrowRight, 
   ChevronLeft, 
   ChevronRight,
@@ -21,7 +22,8 @@ interface ToolsMarqueeSectionProps {
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Receipt,
-  ShieldCheck
+  ShieldCheck,
+  Share2
 };
 
 export const ToolsMarqueeSection: React.FC<ToolsMarqueeSectionProps> = ({
@@ -49,6 +51,8 @@ export const ToolsMarqueeSection: React.FC<ToolsMarqueeSectionProps> = ({
       window.open('https://postalpro.in/tdbill/', '_blank', 'noopener,noreferrer');
     } else if (tool.id === 'pli-leads-pro' || tool.targetView === 'plileads') {
       window.open('https://postalpro.in/plileads/', '_blank', 'noopener,noreferrer');
+    } else if (tool.id === 'scheme-share' || tool.targetView === 'schemeshare') {
+      window.open('https://postalpro.in/schemeshare/', '_blank', 'noopener,noreferrer');
     } else if (tool.externalUrl) {
       window.open(tool.externalUrl, '_blank', 'noopener,noreferrer');
     }
